@@ -23,6 +23,7 @@ repositories {
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
     implementation 'com.google.guava:guava:26.0-jre'
+    compile 'org.mongodb:mongo-java-driver:3.11.1'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
