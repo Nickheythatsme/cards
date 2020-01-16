@@ -15,6 +15,12 @@ gameModel.createGame('new game!', {created: Date.now()}, (err, result) => {
     if (err) {
         logger.warning('Could not add game: ' + err);
     } else {
-        logger.info('Added new game!', {ops: result.ops[0]});
+        logger.info('Added new game!', {game: result.name});
     }
 })
+
+gameModel.getGame('new game!', (err, result) => {
+    if (err) {
+        logger.warn(err);
+    }
+});

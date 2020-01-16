@@ -1,9 +1,13 @@
 import { MongoError } from "mongodb";
+import { createLogger } from '../config'
+import {db, createCollection} from '../db';
+const logger = createLogger('gameModel');
 
-const logger = require('../config').createLogger('GameModel');
-const { db, createCollection } = require('../db');
-
-createCollection('games');
+createCollection('games', (err) => {
+    if (err) {
+        logger.warn('Could not create games collection: ' + err);
+    }
+});
 
 export default class Game {
     constructor() {
@@ -31,17 +35,10 @@ export default class Game {
 
     /**
      * 
-     * @param {*} name 
-     * @param {*} callback 
+     * @param name string
+     * @param callback (err: MongoError, result: any)
      */
     public static getGame(name: string, callback: (err: MongoError, result: any) =>  void): void {
-        db.collection('games').findOne({name: name}, (err: MongoError, result: any) => {
-            if (err) {
-                logger.warn('Error finding game: ', err, {err: err});
-            } else {
-                logger.info('Found game: ', result.name);
-            }
-            callback(err, result);
-        });
+        db.collection('games').findOne({name: name}, callback);
     }
 }
