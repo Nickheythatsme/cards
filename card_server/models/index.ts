@@ -1,1 +1,3 @@
-export const gameModel = require('./game');
+import gameModel from './game';
+
+export { gameModel };

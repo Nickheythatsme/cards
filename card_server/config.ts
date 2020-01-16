@@ -1,4 +1,4 @@
-import winston = require('winston');
+import winston from 'winston';
 const { combine, timestamp, label } = winston.format;
 
 /**
@@ -13,7 +13,7 @@ const defaultTransports = [
  * Create a new logger with standard configuration and a custom label
  * @param {string} customLabel the label of the logger
  */
-function createLogger(customLabel: string) {
+export function createLogger(customLabel: string) {
     return winston.createLogger({
         level: 'info',
         format: combine(
@@ -23,8 +23,4 @@ function createLogger(customLabel: string) {
         ),
         transports: defaultTransports
     });
-}
-
-module.exports = {
-    createLogger
 }
