@@ -23,8 +23,12 @@
     "express": "^4.17.1",
     "install": "^0.13.0",
     "mongodb": "^3.5.0",
-    "nodemon": "^2.0.2",
     "npm": "^6.13.6",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^3.3.14",
+    "@types/winston": "^2.4.4",
+    "nodemon": "^2.0.2"
   }
 }
