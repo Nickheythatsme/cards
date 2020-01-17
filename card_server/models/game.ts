@@ -3,11 +3,7 @@ import { createLogger } from '../config'
 import { db } from '../db';
 const logger = createLogger('gameModel');
 
-db.createCollection('games', (err: MongoError) => {
-    if (err) {
-        console.log('err: ', err);
-    }
-});
+db.createCollection('games').catch((err: MongoError) => console.log('err: ', err));
 
 export default class Game {
     private _id: any;
