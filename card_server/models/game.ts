@@ -1,17 +1,35 @@
 import { MongoError } from "mongodb";
 import { createLogger } from '../config'
-import {db, createCollection} from '../db';
+import { db } from '../db';
 const logger = createLogger('gameModel');
 
-createCollection('games', (err) => {
+db.createCollection('games', (err: MongoError) => {
     if (err) {
-        logger.warn('Could not create games collection: ' + err);
+        console.log('err: ', err);
     }
 });
 
 export default class Game {
-    constructor() {
+    private _id: any;
+    private name: string;
 
+    constructor(opts: {name: string, _id: any}) {
+        this._id = opts._id;
+        this.name = opts.name;
+    }
+
+    public setName(newName: string): Promise<Game> {
+        return new Promise((resolve, reject) => {
+            this.name = newName;
+            db.collection('games').updateOne({_id: this._id}, {$set: {name: this.name}}, (err: MongoError) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    logger.info('updated game name to: ' + newName);
+                    resolve(this);
+                }
+            });
+        });
     }
 
     /**
@@ -19,17 +37,19 @@ export default class Game {
      * @param {string} name 
      * @param {*} opts 
      */
-    public static createGame(name: string, opts: any, callback: (err: MongoError, result: any) => void): void{
-        db.collection('games').insertOne({
-            name: name,
-            opts: opts
-        }, (err: MongoError, result: any) => {
-            if (err) {
-                logger.warn('Could not add game: ' + err, {err: err});
-            } else {
-                logger.info('Successfully added game');
-            }
-            callback(err, result);
+    public static createGame(name: string, opts?: any): Promise<any> {
+        let obj: any = {};
+        for (let key in opts) {
+            obj[key] = opts[key];
+        }
+        obj.name = name;
+        return new Promise((resolve, reject) => {
+            db.collection('games').insertOne(obj, (err: MongoError, result: Game) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(new Game({name, _id: result._id}));
+            });
         });
     }
 
@@ -38,7 +58,14 @@ export default class Game {
      * @param name string
      * @param callback (err: MongoError, result: any)
      */
-    public static getGame(name: string, callback: (err: MongoError, result: any) =>  void): void {
-        db.collection('games').findOne({name: name}, callback);
+    public static getGame(name: string): Promise<Game> {
+        return new Promise((resolve, reject) => {
+            db.collection('games').findOne({name: name}, (err: MongoError, result: any) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(new Game(result));
+            });
+        });
     }
 }

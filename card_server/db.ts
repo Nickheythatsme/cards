@@ -24,17 +24,3 @@ client.connect( (err: MongoError) => {
     logger.info("Connected successfully to server");
 });
 export const db = client.db(serverConfig.dbName);
-
-/**
- * 
- * @param {string} name 
- * @param {function(*, *): void} callback
- */
-export function createCollection(name: string, callback: (err: MongoError, result: any) => void) {
-    logger.info('Creating collection: ' + name);
-    db.createCollection(name, callback || ((err: MongoError, result: any) => {
-        if (err) {
-            logger.warn('Error creating collection: ' + err);
-        }
-    }));
-}

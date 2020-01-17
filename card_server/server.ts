@@ -11,16 +11,10 @@ app.use(cookieParser());
 
 const logger = createLogger('root');
 
-gameModel.createGame('new game!', {created: Date.now()}, (err, result) => {
-    if (err) {
-        logger.warning('Could not add game: ' + err);
-    } else {
-        logger.info('Added new game!', {game: result.name});
-    }
-})
+gameModel.createGame('new game!', {created: Date.now()});
 
-gameModel.getGame('new game!', (err, result) => {
-    if (err) {
-        logger.warn(err);
-    }
-});
+gameModel.getGame('new game!').then(game => {
+    game.setName('nicky!');
+}).catch(err => {
+    logger.warn('Error getting game', {err: err});
+})
