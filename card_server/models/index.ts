@@ -1,3 +1,3 @@
-import gameModel from './game';
+import { GameModel, GameInterface } from './game';
 
-export { gameModel };
+export { GameModel, GameInterface };

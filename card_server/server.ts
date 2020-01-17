@@ -1,20 +1,27 @@
-import { gameModel } from './models';
-import { createLogger } from './config';
+import cors from 'cors';
+import { createLogger, PORT } from './config';
+import { router } from './controllers';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+const logger = createLogger('root');
 
 export const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const logger = createLogger('root');
+app.use((req, res, next) => {
+    logger.info('Request', {
+        ip: req.ip,
+        url: req.url,
+    });
+    next();
+});
 
-gameModel.createGame('new game!', {created: Date.now()});
+app.use('/', router);
 
-gameModel.getGame('new game!').then(game => {
-    game.setName('nicky!');
-}).catch(err => {
-    logger.warn('Error getting game', {err: err});
-})
+app.listen(3000, () => {
+    console.log(`app listening on localhost:${PORT}`)
+});

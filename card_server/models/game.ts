@@ -1,67 +1,98 @@
-import { MongoError } from "mongodb";
-import { createLogger } from '../config'
+import { MongoError, Timestamp, ObjectId } from "mongodb";
 import { db } from '../db';
-const logger = createLogger('gameModel');
 
 db.createCollection('games').catch((err: MongoError) => console.log('err: ', err));
 
-export default class Game {
-    private _id: any;
-    private name: string;
+export interface GameInterface {
+    _id: ObjectId;
+    name: string;
+    created?: Date;
+    lastModified?: Date;
+    active?: boolean;
+    cards?: [any];
+    lastMove?: Timestamp;
+}
 
-    constructor(opts: {name: string, _id: any}) {
-        this._id = opts._id;
-        this.name = opts.name;
-    }
+export class GameModel {
 
-    public setName(newName: string): Promise<Game> {
+    /**
+     * 
+     * @param game the game to update
+     */
+    public static update(game: GameInterface): Promise<GameInterface> {
+        game.lastModified = new Date();
         return new Promise((resolve, reject) => {
-            this.name = newName;
-            db.collection('games').updateOne({_id: this._id}, {$set: {name: this.name}}, (err: MongoError) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    logger.info('updated game name to: ' + newName);
-                    resolve(this);
-                }
-            });
+            db.collection('games')
+                .updateOne(
+                    { _id: game._id }, 
+                    {
+                        $set: {
+                            ...game
+                        }
+                    }).then((result: any) => {
+                        resolve(game);
+                    }).catch((err: any) => reject(err));
         });
     }
 
     /**
      * Create a new game
      * @param {string} name 
-     * @param {*} opts 
      */
-    public static createGame(name: string, opts?: any): Promise<any> {
-        let obj: any = {};
-        for (let key in opts) {
-            obj[key] = opts[key];
-        }
-        obj.name = name;
+    public static createGame(name: string): Promise<GameInterface> {
+        let obj: GameInterface = {
+            _id: new ObjectId(),
+            name: name,
+            created: new Date(),
+            lastModified: new Date(),
+            active: true
+        };
         return new Promise((resolve, reject) => {
-            db.collection('games').insertOne(obj, (err: MongoError, result: Game) => {
+            db.collection('games').insertOne(obj)
+                .then((result: any) => {
+                    resolve(Object.assign({}, obj, { _id: result.insertedId }));
+                })
+                .catch((err: MongoError) => reject(err))
+            }
+        );
+    }
+
+    /**
+     * 
+     * @param name 
+     */
+    public static getGame(name: string): Promise<GameInterface> {
+        return new Promise((resolve, reject) => {
+            db.collection('games').findOne({name: name}, (err: MongoError, result: GameInterface) => {
                 if (err) {
                     reject(err);
                 }
-                resolve(new Game({name, _id: result._id}));
+                resolve(result);
             });
         });
     }
 
     /**
      * 
-     * @param name string
-     * @param callback (err: MongoError, result: any)
+     * @param offset 
+     * @param limit 
      */
-    public static getGame(name: string): Promise<Game> {
+    public static getGames(offset?: string, limit?: string): Promise<[GameInterface]> {
         return new Promise((resolve, reject) => {
-            db.collection('games').findOne({name: name}, (err: MongoError, result: any) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(new Game(result));
-            });
+            db.collection('games').find({})
+                .skip(Number.parseInt(offset || '0'))
+                .limit(Number.parseInt(limit || '10'))
+                .toArray()
+                .then((result: [GameInterface]) => resolve(result))
+                .catch((err: any) => reject(err));
+        });
+    }
+
+    public static deleteGame(game: GameInterface): Promise<null> {
+        return new Promise((resolve, reject) => {
+            db.collection('games').deleteMany({})
+                .then(resolve())
+                .catch((err: any) => reject(err));
         });
     }
 }

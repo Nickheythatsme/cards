@@ -24,3 +24,5 @@ export function createLogger(customLabel: string) {
         transports: defaultTransports
     });
 }
+
+export const PORT = process.env.port || 3000;
