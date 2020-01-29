@@ -1,0 +1,14 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.col {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 0.5em;
+    width: 100%;
+    border: 1px solid red;
+}
