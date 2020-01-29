@@ -43,4 +43,3 @@ export default function Button(props: PropsType) {
         </ThemeContext.Consumer>
     )
 }
-

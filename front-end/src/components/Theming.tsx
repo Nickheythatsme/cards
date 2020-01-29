@@ -9,6 +9,7 @@ export interface ThemeType {
     warning: string,
     success: string,
     danger: string,
+    background: string,
     textBackground: string,
     [themeName: string]: string
 }
@@ -25,7 +26,8 @@ export const themes: AllThemesType = {
         warning: '#ffbf80',
         success: '#4dff4d',
         danger: '#ff3333',
-        textBackground: '#fff'
+        background: '#fff',
+        textBackground: '#000'
     },
     dark: {
         primary: '#5c5cd6',
@@ -34,7 +36,8 @@ export const themes: AllThemesType = {
         warning: '#ffbf80',
         success: '#4dff4d',
         danger: '#ff3333',
-        textBackground: '#000'
+        background: '#000',
+        textBackground: '#fff'
     },
 };
 

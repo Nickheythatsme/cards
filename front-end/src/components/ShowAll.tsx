@@ -9,11 +9,13 @@ const ShowAll: React.FC = () => {
     const { height, width } = useWindowDimensions();
 
     return (
-        <Container>
+        <Container fluid={true}>
             <Row>
-                <h1>Test title</h1>
-                <p>Window height: {height}</p>
-                <p>Window width: {width}</p>
+                <Col>
+                    <h1>Test title</h1>
+                    <p>Window height: {height}</p>
+                    <p>Window width: {width}</p>
+                </Col>
             </Row>
             <Row>
                 <Button>Primary</Button>
@@ -36,7 +38,6 @@ const ShowAll: React.FC = () => {
                 </Col>
             </Row>
         </Container>
-
     )
 }
 
