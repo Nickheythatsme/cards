@@ -1,54 +1,14 @@
 import React from 'react';
-import Button from './Button';
-
-
-export interface ThemeType {
-    primary: string,
-    secondary: string,
-    info: string,
-    warning: string,
-    success: string,
-    danger: string,
-    background: string,
-    textBackground: string,
-    [themeName: string]: string
-}
-
-interface AllThemesType {
-    [themeName: string]: ThemeType
-}
-
-export const themes: AllThemesType = {
-    light: {
-        primary: '#cc5cd6',
-        secondary: '#5cd6bc',
-        info: '#84ffe5',
-        warning: '#ffbf80',
-        success: '#4dff4d',
-        danger: '#ff3333',
-        background: '#fff',
-        textBackground: '#000'
-    },
-    dark: {
-        primary: '#5c5cd6',
-        secondary: '#5cd65c',
-        info: '#80ffe5',
-        warning: '#ffbf80',
-        success: '#4dff4d',
-        danger: '#ff3333',
-        background: '#000',
-        textBackground: '#fff'
-    },
-};
+import themeColors from './Theming.module.scss';
 
 export const ThemeContext = React.createContext({
-    theme: themes.dark,
+    theme: themeColors.light,
     toggleTheme: () => {}
 });
 
 export default class Theming extends React.Component {
     state = {
-        theme: themes.dark
+        theme: 'red' 
     }
 
     constructor(props: any) {
@@ -58,22 +18,18 @@ export default class Theming extends React.Component {
 
     toggleTheme() {
         this.setState((state: any) => {
-            if (state.theme === themes.dark) {
-                state.theme = themes.light;
-            } else {
-                state.theme = themes.dark;
-            }
+            state.theme = (state.theme === 'green' ? 'red' : 'green')
             return state;
-        }, () => {console.log('theme changed to: ' + (this.state.theme === themes.dark ? 'dark' : 'light' ))});
+        }, () => this.forceUpdate());
     };
 
     render() {
         return (
             <ThemeContext.Provider value={{theme: this.state.theme, toggleTheme: this.toggleTheme}}>
-                <>
-                <Button variant={"primary"} onClick={this.toggleTheme}>Toggle Theme</Button>
+                <style>
+                    {`:root{--primary:${this.state.theme}}`}
+                </style>
                 {this.props.children}
-                </>
             </ThemeContext.Provider>
         )
     }

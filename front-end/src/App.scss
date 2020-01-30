@@ -1,0 +1,17 @@
+:local(.styles) {
+
+$primary: #0074d9;
+$primary-inverse: #fff;
+$secondary: #ff4136;
+
+:root {
+  --primary: #{$primary};
+  --primary-inverse: #{$primary-inverse};
+  --secondary: #{$secondary};
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+};
+}

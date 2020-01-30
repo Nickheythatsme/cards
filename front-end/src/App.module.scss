@@ -1,0 +1,31 @@
+
+$primary: #0074d9;
+$primary-inverse: #fff;
+$secondary: #ff4136;
+
+$primary-dark: brown;
+$primary-dark-inverse: white;
+$secondary-dark: grey;
+
+.body {
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+
+}
+
+.bodylight {
+    @extend .body;
+    --primary: #{$primary};
+    --primary-inverse: #{$primary-inverse};
+    --secondary: #{$secondary};
+}
+
+.bodydark {
+    @extend .body;
+    --primary: #{$primary-dark};
+    --primary-inverse: #{$primary-dark-inverse};
+    --secondary: #{$secondary-dark};
+}
