@@ -1,31 +1,25 @@
 
-$primary: #0074d9;
-$primary-inverse: #fff;
-$secondary: #ff4136;
+.btn {
+  border: none;
+  border-radius: 3px;
+  background-color: white;
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  cursor: pointer;
 
-$primary-dark: brown;
-$primary-dark-inverse: white;
-$secondary-dark: grey;
+  &-primary {
+    color: var(--primary-inverse);
+    background-color: var(--primary);
+  };
 
-.body {
-    --breakpoint-xs: 0;
-    --breakpoint-sm: 576px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 992px;
-    --breakpoint-xl: 1200px;
-
-}
-
-.bodylight {
-    @extend .body;
-    --primary: #{$primary};
-    --primary-inverse: #{$primary-inverse};
-    --secondary: #{$secondary};
-}
-
-.bodydark {
-    @extend .body;
-    --primary: #{$primary-dark};
-    --primary-inverse: #{$primary-dark-inverse};
-    --secondary: #{$secondary-dark};
-}
+  &-primary-outline {
+    color: var(--primary);
+    border: 2px solid;
+    border-color: var(--primary);
+  };
+};

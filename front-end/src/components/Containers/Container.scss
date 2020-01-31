@@ -1,0 +1,55 @@
+// TODO import is deprecated. update to newer style 
+@import '../../App.scss';
+
+.fluid {
+    margin: 0;
+}
+
+@include media-breakpoint-up("xs") {
+    .container {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .col {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        width: 100%;
+        padding: 0;
+        border: 1px solid red;
+    }
+}
+
+@include media-breakpoint-up("sm") {
+    .container {
+        width: $breakpoint-sm - 100px;
+        margin: {
+            right: auto;
+            left: auto;
+        }
+    }
+    .row {
+        flex-direction: row;
+    }
+}
+
+@include media-breakpoint-up("md") {
+    .container {
+        width: $breakpoint-md - 100px;
+    }
+}
+
+@include media-breakpoint-up("lg") {
+    .container {
+        width: $breakpoint-lg - 100px;
+    }
+}
+

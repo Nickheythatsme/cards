@@ -1,9 +1,8 @@
 import React from 'react';
-import CSS from 'csstype';
 
 export default function Row(props: any) {
     return (
-        <div className="row">
+        <div className={'row' + (props.className ? ' ' + props.className : '')}>
             {props.children}
         </div>
     )

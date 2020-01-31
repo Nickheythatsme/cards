@@ -36,3 +36,20 @@ export function useWindowBreakpoint() {
 
   return windowDimensions;
 }
+
+interface ClassNameOptions {
+  classNames?: [string] | [],
+  prefix?: string,
+  base?: string
+}
+
+export function makeClassName(opts: ClassNameOptions) {
+  let className = opts.base || '';
+  if (opts.classNames) {
+    let prefix = opts.prefix || '';
+    opts.classNames.forEach(item => {
+      className += ' ' + prefix + item 
+    });
+  }
+  return className.trim();
+}

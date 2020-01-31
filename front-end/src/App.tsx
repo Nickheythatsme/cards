@@ -1,16 +1,21 @@
 import React from 'react';
 import Theming, {ThemeContext} from './components/Theming';
-import Button from './components/Button';
+import ShowAll from './components/ShowAll';
+import Container from './components/Containers/Container';
+import Button from './components/Button/Button';
 
 const App: React.FC = () => {
   return (
     <Theming>
-      <div className={'text-left p-4'}>Here is text!</div>
-      <ThemeContext.Consumer>
-        {({toggleTheme}) => (
-          <Button onClick={toggleTheme} className={'btn btn-primary'}>Click me!</Button>
-        )}
-      </ThemeContext.Consumer>
+      <Container>
+        <div className={'text-left py-4'}>Here is text!</div>
+        <ThemeContext.Consumer>
+          {({toggleTheme}) => (
+            <Button onClick={toggleTheme} variant={'primary'}>Click me!</Button>
+          )}
+        </ThemeContext.Consumer>
+      <ShowAll/>
+      </Container>
     </Theming>
   );
 }

@@ -1,0 +1,39 @@
+$themeColors: 'primary', 'secondary', 'text-primary', 'background-primary', 'info', 'warning', 'danger';
+
+.btn {
+  border: none;
+  border-radius: 3px;
+  padding: {
+    right: 1rem;
+    left: 1rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+  }
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  cursor: pointer;
+}
+
+@mixin btn-color ($variant-name) {
+  .btn-#{$variant-name} {
+    color: var(--text-primary);
+    background-color: var(--#{$variant-name});
+  }
+}
+
+@mixin btn-color-outline ($variant-name) {
+  .btn-#{$variant-name}-outline {
+    color: var(--#{$variant-name});
+    border: 2px solid;
+    border-color: var(--#{$variant-name});
+  }
+}
+
+@each $color-name in $themeColors {
+  @include btn-color($color-name);
+  @include btn-color-outline($color-name);
+}
