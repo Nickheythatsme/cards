@@ -15,6 +15,7 @@ const ThemeColors: any = {
         '--info': '#C38D9E',
         '--text-primary': '#000',
         '--background-primary': '#fff',
+        '--background-secondary': 'grey',
         '--warning': '#E8A87C',
         '--danger': '#F64C72',
     },
@@ -23,7 +24,7 @@ const ThemeColors: any = {
         '--secondary': '#907163',
         '--info': '#5cd895',
         '--text-primary': '#fff',
-        '--background-primary': '#000',
+        '--background-secondary': 'grey',
         '--warning': '#edf5e1',
         '--danger': '#F13C20',
     }

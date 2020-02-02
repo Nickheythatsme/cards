@@ -22,6 +22,7 @@ $light:      white default;
 $dark:       #212529 !default;
 $text-primary: var(--text-primary);
 $background-primary: var(--background-primary);
+$background-secondary: var(--background-secondary);
 
 $breakpoint-xs: 0;
 $breakpoint-sm: 576px;
@@ -95,6 +96,5 @@ Make a css compatable size from the given list of sizes (0, 2, ..., auto)
     }
 }
 
-@include define-operators("m", "margin", 0.3);
 @include define-operators("m", "margin", 0.3);
 @include define-operators("p", "padding", 0.3);

@@ -1,10 +1,11 @@
 import React from 'react';
 import Button from './Button/Button';
-import Container from './Containers/Container';
-import Row from './Containers/Row';
-import Col from './Containers/Col';
+import Container from './Layout/Container';
+import Row from './Layout/Row';
+import Col from './Layout/Col';
 import {useWindowDimensions} from './Utils'
-import {BreakpointSizes} from './Theming';
+import {BreakpointSizes, ThemeContext} from './Theming';
+import GameCard from './GameCard/GameCard';
 
 function showBreakpoint(width: number) {
     let size = 'xs';
@@ -23,12 +24,17 @@ const ShowAll: React.FC = () => {
     return (
         <Container fluid>
             <Row>
-                <Col>
-                    <h1>Test title</h1>
-                    <p>Window height: {height}</p>
-                    <p>Window width: {width}</p>
-                    <p>breakpont: {currentBreakpoint}</p>
-                </Col>
+                <ThemeContext.Consumer>
+                {({toggleTheme}) => (
+                    <Button onClick={toggleTheme} variant={'primary'}>Click me!</Button>
+                )}
+                </ThemeContext.Consumer>
+            </Row>
+            <Row>
+                <h1>Test title</h1>
+                <p>Window height: {height}</p>
+                <p>Window width: {width}</p>
+                <p>breakpont: {currentBreakpoint}</p>
             </Row>
             <Row>
                 <Button>Primary</Button>
@@ -53,6 +59,9 @@ const ShowAll: React.FC = () => {
                 <Col>
                     <Button variant={"danger-outline"}>Outline Danger</Button>
                 </Col>
+            </Row>
+            <Row>
+                <GameCard suite='hearts' value='12'/>
             </Row>
         </Container>
     )

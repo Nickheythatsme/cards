@@ -1,0 +1,40 @@
+@import '../../App.scss';
+
+.game-card {
+    position: inherit;
+    background-color: $background-secondary;
+    border: solid $background-secondary 2px;
+    border-radius: 0.25rem;
+    z-index: auto;
+    &:hover {
+        filter: brightness(85%);
+    }
+    &.selected {
+        border: solid black 2px;
+        z-index: 100;
+    }
+}
+
+@include media-breakpoint-up("xs") {
+    $width: $breakpoint-sm * 0.15;
+    .game-card {
+        width: $width;
+        height: $width * 1.5; 
+    }
+}
+
+@include media-breakpoint-up("sm") {
+    $width: $breakpoint-sm * 0.25;
+    .game-card {
+        width: $width;
+        height: $width * 1.5; 
+    }
+}
+
+@include media-breakpoint-up("xl") {
+    $width: $breakpoint-lg * 0.2;
+    .game-card {
+        width: $width;
+        height: $width * 1.5; 
+    }
+}
