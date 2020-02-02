@@ -1,15 +1,14 @@
 import React from 'react';
 import Theming from './components/Theming';
-import ShowAll from './components/ShowAll';
-import Container from './components/Layout/Container';
+import DevPanel from './components/DevPanel';
+import GameBoard from './components/GameBoard/GameBoard';
 
 
 const App: React.FC = () => {
   return (
     <Theming>
-      <Container>
-      <ShowAll/>
-      </Container>
+      <DevPanel/>
+      <GameBoard title={'test game'}/>
     </Theming>
   );
 }

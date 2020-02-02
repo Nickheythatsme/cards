@@ -83,6 +83,16 @@ Make a css compatable size from the given list of sizes (0, 2, ..., auto)
             bottom: make-size($operator-size, $size-modifier);
         }
     }
+    .#{$operator-prefix}l#{$breakpoint-name}-#{$operator-size} {
+        #{$css-name}: {
+            left: make-size($operator-size, $size-modifier);
+        }
+    }
+    .#{$operator-prefix}r#{$breakpoint-name}-#{$operator-size} {
+        #{$css-name}: {
+            right: make-size($operator-size, $size-modifier);
+        }
+    }
 }
 
 @mixin define-operators($operator-prefix, $css-name, $size-modifier) {

@@ -1,20 +1,8 @@
 import React from 'react';
 import './Draggable.scss';
 import PointerTrack from './PointerTrack';
-import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group';
 
-
-const defaultStyle = {
-    transition: `opacity ${200}ms ease-in-out`,
-    opacity: 0,
-}
-
-const transitionStyles: any = {
-    entering: { opacity: 1 },
-    entered: { opacity: 1 },
-    exiting: { opacity: 0 },
-    exited: { opacity: 0 },
-};
+const TRANSITION_DURATION = 200; // ms
 
 interface StateType {
     originalPosition: null | {
@@ -28,7 +16,8 @@ interface StateType {
     position: {
         pageX: number,
         pageY: number
-    }
+    },
+    isTransitioning: boolean
 }
 
 export interface DraggablePropTypes extends React.PropsWithChildren<any> {
@@ -38,14 +27,15 @@ export interface DraggablePropTypes extends React.PropsWithChildren<any> {
 }
 
 
-export default class Draggable extends React.Component<DraggablePropTypes> {
+export default class Draggable extends React.Component<DraggablePropTypes, StateType> {
     state: StateType = {
         originalPosition: null,
         lastDropPosition: null,
         position: {
             pageX: 0,
             pageY: 0
-        }
+        },
+        isTransitioning: false
     }
 
     // To store the original location
@@ -87,21 +77,28 @@ export default class Draggable extends React.Component<DraggablePropTypes> {
     }
 
     resetPosition() {
+        if (!this.state.originalPosition) {
+            return;
+        }
         this.setState(state => ({
-            position: (state as StateType).originalPosition,
-            lastDropPosition: (state as StateType).originalPosition
-        }))
+            position: state.originalPosition!,
+            lastDropPosition: state.originalPosition!,
+            isTransitioning: true
+        }), () => setTimeout(() => {
+            this.setState({isTransitioning: false})
+        }, TRANSITION_DURATION))
     }
 
     handleDrop() {
         this.setState(state => ({
-            lastDropPosition: (state as any).position
+            lastDropPosition: state.position
         }))
     }
 
-    formatCurrentPosition() {
+    formatPosition() {
         if (this.state.originalPosition) {
             return {
+                transition: this.state.isTransitioning ? `all ${TRANSITION_DURATION}ms ease-in-out` : undefined,
                 position: "fixed" as const,
                 left: this.state.position.pageX,
                 top: this.state.position.pageY,
@@ -117,15 +114,7 @@ export default class Draggable extends React.Component<DraggablePropTypes> {
                 onPointerMove={this.handleMovement}
                 onPointerUp={this.handleDrop}
             >
-                <TransitionGroup>
-                    <CSSTransition
-                    classNames="example"
-                    timeout={{ enter: 500, exit: 300 }}
-                    >
-                        <div>fade!</div>
-                    </CSSTransition>
-                </TransitionGroup>
-                <div ref={this.objRef} style={this.formatCurrentPosition()}>
+                <div ref={this.objRef} style={this.formatPosition()}>
                     {this.props.children}
                 </div>
             </PointerTrack>

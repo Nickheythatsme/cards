@@ -1,6 +1,7 @@
 import React from 'react';
 import './GameCard.scss';
 import Row from '../Layout/Row';
+import Col from '../Layout/Col';
 import Draggable from '../Draggable/Draggable';
 import Button from '../Button/Button';
 
@@ -31,13 +32,17 @@ export default class GameCard extends React.Component<GameCardPropTypes> {
     }
 
     render() {
+        let className = `game-card ${this.props.suite} ${this.state.isSelected ? ' selected' : ''}`
         return (
             <Draggable ref={this.draggableRef}>
-                <div onClick={this.toggleSelected} className={'game-card' + (this.state.isSelected ? ' selected' : '')}>
-                    <div>hello</div>
-                    <Row>
-                        <Button onClick={() => {(this.draggableRef as any).current.resetPosition()}}>Reset</Button>
-                    </Row>
+                <div onClick={this.toggleSelected} className={className}>
+                    <Col>
+                        <div className={'mr-auto'}>{this.props.value}</div>
+                        <Row>
+                            <Button onClick={() => {(this.draggableRef as any).current.resetPosition()}}>Reset</Button>
+                        </Row>
+                        <div className={'ml-auto'}>{this.props.value}</div>
+                    </Col>
                 </div>
             </Draggable>
         );

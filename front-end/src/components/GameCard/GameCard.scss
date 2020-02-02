@@ -1,11 +1,13 @@
 @import '../../App.scss';
 
 .game-card {
-    position: inherit;
+    position: initial;
     background-color: $background-secondary;
     border: solid $background-secondary 2px;
     border-radius: 0.25rem;
     z-index: auto;
+    font-weight: 600;
+    font-size: 1.25em;
     &:hover {
         filter: brightness(85%);
     }
@@ -13,6 +15,27 @@
         border: solid black 2px;
         z-index: 100;
     }
+    &.hearts {
+        color: red;
+    }
+    &.diamonds {
+        color: red;
+    }
+    &.spades {
+        color: black;
+    }
+
+    &.clubs {
+        color: black;
+    }
+}
+
+.game-card .spades {
+    color: black;
+}
+
+.game-card .clubs {
+    color: black;
 }
 
 @include media-breakpoint-up("xs") {
