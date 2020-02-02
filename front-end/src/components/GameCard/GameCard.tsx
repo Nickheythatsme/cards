@@ -35,15 +35,17 @@ export default class GameCard extends React.Component<GameCardPropTypes> {
         let className = `game-card ${this.props.suite} ${this.state.isSelected ? ' selected' : ''}`
         return (
             <Draggable ref={this.draggableRef}>
-                <div onClick={this.toggleSelected} className={className}>
-                    <Col>
-                        <div className={'mr-auto'}>{this.props.value}</div>
-                        <Row>
-                            <Button onClick={() => {(this.draggableRef as any).current.resetPosition()}}>Reset</Button>
-                        </Row>
-                        <div className={'ml-auto'}>{this.props.value}</div>
-                    </Col>
-                </div>
+                {styles => (
+                    <div onClick={this.toggleSelected} style={styles} className={className}>
+                        <Col>
+                            <div className={'mr-auto'}>{this.props.value}</div>
+                            <Row>
+                                <Button onClick={() => {(this.draggableRef as any).current.resetPosition()}}>Reset</Button>
+                            </Row>
+                            <div className={'ml-auto'}>{this.props.value}</div>
+                        </Col>
+                    </div>
+                )}
             </Draggable>
         );
     }

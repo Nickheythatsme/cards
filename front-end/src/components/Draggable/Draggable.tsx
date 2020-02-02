@@ -24,6 +24,12 @@ export interface DraggablePropTypes extends React.PropsWithChildren<any> {
     onPointerDown?: (event: any) => void,
     onPointerUp?: (event: any) => void,
     onPointerMove?: (event: any) => void,
+    children: (styles?: {
+        transition?: string,
+        position?: "fixed",
+        left: number,
+        top: number
+    }) => React.ReactNode
 }
 
 
@@ -104,7 +110,7 @@ export default class Draggable extends React.Component<DraggablePropTypes, State
                 top: this.state.position.pageY,
             }
         }
-        return {};
+        return;
     }
 
     render() {
@@ -114,8 +120,8 @@ export default class Draggable extends React.Component<DraggablePropTypes, State
                 onPointerMove={this.handleMovement}
                 onPointerUp={this.handleDrop}
             >
-                <div ref={this.objRef} style={this.formatPosition()}>
-                    {this.props.children}
+                <div ref={this.objRef}>
+                    {this.props.children(this.formatPosition())}
                 </div>
             </PointerTrack>
         )
