@@ -26,7 +26,7 @@ export interface DraggablePropTypes extends React.PropsWithChildren<any> {
     onPointerMove?: (event: any) => void,
     children: (styles?: {
         transition?: string,
-        position?: "fixed",
+        position?: "fixed" | "relative",
         left: number,
         top: number
     }) => React.ReactNode
@@ -56,9 +56,15 @@ export default class Draggable extends React.Component<DraggablePropTypes, State
 
     componentDidMount() {
         if (this.objRef) {
+            /*
             let position = {
                 pageX: (this.objRef as any).current.offsetLeft,
                 pageY: (this.objRef as any).current.offsetTop
+            }
+            */
+            let position = {
+                pageX: 0,
+                pageY: 0,
             }
             this.setState({
                 position: position,
@@ -104,8 +110,8 @@ export default class Draggable extends React.Component<DraggablePropTypes, State
     formatPosition() {
         if (this.state.originalPosition) {
             return {
+                position: "relative" as const,
                 transition: this.state.isTransitioning ? `all ${TRANSITION_DURATION}ms ease-in-out` : undefined,
-                position: "fixed" as const,
                 left: this.state.position.pageX,
                 top: this.state.position.pageY,
             }
@@ -119,10 +125,9 @@ export default class Draggable extends React.Component<DraggablePropTypes, State
                 {...this.props}
                 onPointerMove={this.handleMovement}
                 onPointerUp={this.handleDrop}
+                childRef={this.objRef}
             >
-                <div ref={this.objRef}>
-                    {this.props.children(this.formatPosition())}
-                </div>
+                {this.props.children(this.formatPosition())}
             </PointerTrack>
         )
     }

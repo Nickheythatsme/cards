@@ -9,6 +9,7 @@ const App: React.FC = () => {
     <Theming>
       <DevPanel/>
       <GameBoard title={'test game'}/>
+      <div style={{height: '200px', width: '100%', backgroundColor: 'pink', zIndex: 1005}}/>
     </Theming>
   );
 }

@@ -29,6 +29,7 @@ export default class PonterTrack extends React.Component<PointerTrackPropType> {
         this.onPointerUpHandler = this.onPointerUpHandler.bind(this);
         this.onPointerMoveHandler = this.onPointerMoveHandler.bind(this);
         this.onTouchMoveHandler = this.onTouchMoveHandler.bind(this);
+        this.onTouchEndHandler = this.onTouchEndHandler.bind(this);
     }
 
     calculateMovement(pageX: number, pageY: number) {
@@ -41,12 +42,13 @@ export default class PonterTrack extends React.Component<PointerTrackPropType> {
     }
 
     onTouchMoveHandler(event: TouchEvent) {
-        if (event.touches.length > 0) {
-            this.calculateMovement(event.touches.item(0)!.pageX, event.touches.item(0)!.pageY);
-        }
+        this.calculateMovement(event.touches.item(0)!.pageX, event.touches.item(0)!.pageY);
     }
 
     onTouchEndHandler(event: TouchEvent) {
+        if (this.props.onPointerUp) {
+            this.props.onPointerUp(event)
+        }
         window.removeEventListener('touchmove', this.onTouchMoveHandler);
         window.removeEventListener('touchend', this.onTouchEndHandler);
     }
@@ -85,6 +87,7 @@ export default class PonterTrack extends React.Component<PointerTrackPropType> {
         return (
             <div 
                 onPointerDown={this.onPointerDownHandler}
+                ref={this.props.childRef}
             >
                 {this.props.children}
             </div>

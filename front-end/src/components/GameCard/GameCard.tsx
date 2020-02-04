@@ -39,9 +39,7 @@ export default class GameCard extends React.Component<GameCardPropTypes> {
                     <div onClick={this.toggleSelected} style={styles} className={className}>
                         <Col>
                             <div className={'mr-auto'}>{this.props.value}</div>
-                            <Row>
-                                <Button onClick={() => {(this.draggableRef as any).current.resetPosition()}}>Reset</Button>
-                            </Row>
+                            <Button onClick={() => {(this.draggableRef as any).current.resetPosition()}}>Reset</Button>
                             <div className={'ml-auto'}>{this.props.value}</div>
                         </Col>
                     </div>
