@@ -16,8 +16,12 @@
     font-size: 1em;
 }
 
-.btn-larger {
-    transform: scale(1.05) rotate(5deg);
+.btn-clicked {
+    transform: scale(0.95);
+}
+
+.btn-mouse-over {
+    transform: scale(1.05);
 }
 
 @mixin button-variant($variant-name, $color-name) {

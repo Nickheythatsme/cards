@@ -8,10 +8,14 @@ interface PropTypes {
     outline?: boolean,
     disabled?: boolean,
     className?: string,
-    onClick?: (event: MouseEvent) => any,
+    [propName: string]: any
 }
 
-const Button = React.forwardRef<any, PropTypes>((props: PropTypes, ref: React.Ref<any>) => {
+interface ButtonType extends React.ForwardRefExoticComponent<any> {
+    Reactive: React.ForwardRefExoticComponent<any>;
+}
+
+const B: any = React.forwardRef<any, PropTypes>((props: PropTypes, ref: React.Ref<any>) => {
     const className = classNames(
         'btn',
         {disabled: props.disabled},
@@ -23,30 +27,61 @@ const Button = React.forwardRef<any, PropTypes>((props: PropTypes, ref: React.Re
             {props.children}
         </button>
     );
-})
+});
 
-export const Reactive = React.forwardRef<any, PropTypes>((props: PropTypes, ref: React.Ref<any>) => {
-    const [isLarger, setIsLarger] = useState(false);
+B.Reactive = React.forwardRef<any, PropTypes>((props: PropTypes, ref: React.Ref<any>) => {
+    const [isClicked, setIsClicked] = useState(false);
+    const [isMouseOver, setIsMouseOver] = useState(false);
     let largerTimeout: any = null;
 
     let className = classNames(
         'btn',
-        {disabled: props.disabled, 'btn-larger': isLarger},
+        {
+            disabled: props.disabled, 
+            'btn-clicked': isClicked,
+            'btn-mouse-over': isMouseOver,
+        },
         `btn-${props.variant || 'primary'}${props.outline ? '-outline' : ''}`,
         props.className,
     );
 
-    const handleClick = () => {
+    const handleClick = (e: MouseEvent) => {
         clearTimeout(largerTimeout);
-        setIsLarger(true);
-        setTimeout(() => {setIsLarger(false)}, 200);
+        setIsMouseOver(false);
+        setIsClicked(true);
+        setTimeout(() => {setIsClicked(false)}, 200);
+        if (props.onClick) {
+            props.onClick(e);
+        }
+    }
+
+    const handleMouseOver = (value: boolean, e: MouseEvent) => {
+        setIsMouseOver(value);
+        if (value) {
+            if (props.onMouseOver) {
+                props.onMouseOver(e);
+            }
+        } else {
+            if (props.onMouseOut) {
+                props.onMouseOut(e);
+            }
+        }
     }
 
     return (
-        <button onClick={handleClick} ref={ref} {...props} className={className}>
+        <button 
+            onClick={handleClick} 
+            onMouseOver={(e: MouseEvent) => handleMouseOver(true, e)} 
+            onMouseOut={(e: MouseEvent) => handleMouseOver(false, e)} 
+            ref={ref} 
+            className={className}
+            {...props}
+            >
             {props.children}
         </button>
     );
 });
+
+const Button: ButtonType = B;
 
 export default Button;

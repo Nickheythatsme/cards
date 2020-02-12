@@ -1,3 +1,3 @@
-import Button, {Reactive} from './Button';
+import Button from './Button';
 
 export default Button;
