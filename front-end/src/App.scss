@@ -1,110 +1,14 @@
 @use "sass:map";
 @use "sass:string";
 
-$blue:    #0d6efd !default;
-$indigo:  #6610f2 !default;
-$purple:  #6f42c1 !default;
-$pink:    #d63384 !default;
-$red:     #dc3545 !default;
-$orange:  #fd7e14 !default;
-$yellow:  #ffc107 !default;
-$green:   #28a745 !default;
-$teal:    #20c997 !default;
-$cyan:    #17a2b8 !default;
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
 
-$primary:    var(--primary);
-$secondary:  var(--secondary);
-$success:    var(--success);
-$info:       var(--info);
-$warning:    var(--warning);
-$danger:     var(--danger);
-$light:      white default;
-$dark:       #212529 !default;
-$text-primary: var(--text-primary);
-$background-primary: var(--background-primary);
-$background-secondary: var(--background-secondary);
-
-$breakpoint-xs: 0;
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
-
-$breakpoints: (
-    "xs": $breakpoint-xs,
-    "sm": $breakpoint-sm,
-    "md": $breakpoint-md,
-    "lg": $breakpoint-lg,
-    "xl": $breakpoint-xl,
+$theme-colors:map-remove($theme-colors, "primary");
+$theme-colors: map-merge(
+    (
+        "primary": #000,
+    ),
+    $theme-colors
 );
-
-body {
-  --breakpoint-xs: $breakpoint-xs;
-  --breakpoint-sm: $breakpoint-sm;
-  --breakpoint-md: $breakpoint-md;
-  --breakpoint-lg: $breakpoint-lg;
-  --breakpoint-xl: $breakpoint-xl;
-}
-
-@mixin media-breakpoint-up($given-breakpoint-name) {
-    @each $breakpoint-name, $breakpoint-size in $breakpoints {
-        @if $breakpoint-name == $given-breakpoint-name {
-            @media(min-width: $breakpoint-size) {
-                @content;
-            }
-        }
-    }
-}
-
-/**
-Make a css compatable size from the given list of sizes (0, 2, ..., auto)
-*/
-@function make-size($size-name, $size-modifier) {
-    @if $size-name != 'auto' {
-        @return #{$size-name * $size-modifier}rem;
-    } @else {
-        @return auto;
-    }
-}
-
-@mixin define-operators-at-breakpoint($operator-prefix, $breakpoint-name, $css-name, $operator-size, $size-modifier) {
-    .#{$operator-prefix}#{$breakpoint-name}-#{$operator-size} {
-        #{$css-name}: make-size($operator-size, $size-modifier);
-    }
-    .#{$operator-prefix}x#{$breakpoint-name}-#{$operator-size} {
-        #{$css-name}: {
-            left: make-size($operator-size, $size-modifier);
-            right: make-size($operator-size, $size-modifier);
-        }
-    }
-    .#{$operator-prefix}y#{$breakpoint-name}-#{$operator-size} {
-        #{$css-name}: {
-            top: make-size($operator-size, $size-modifier);
-            bottom: make-size($operator-size, $size-modifier);
-        }
-    }
-    .#{$operator-prefix}l#{$breakpoint-name}-#{$operator-size} {
-        #{$css-name}: {
-            left: make-size($operator-size, $size-modifier);
-        }
-    }
-    .#{$operator-prefix}r#{$breakpoint-name}-#{$operator-size} {
-        #{$css-name}: {
-            right: make-size($operator-size, $size-modifier);
-        }
-    }
-}
-
-@mixin define-operators($operator-prefix, $css-name, $size-modifier) {
-    @each $operator-size in 0, 2, 4, 6, 8, 'auto' {
-        @include define-operators-at-breakpoint($operator-prefix, '', $css-name, $operator-size, $size-modifier);
-        @each $breakpoint-name, $breakpoint-value in $breakpoints {
-            @include media-breakpoint-up($breakpoint-name) {
-                @include define-operators-at-breakpoint($operator-prefix, -#{$breakpoint-name}, $css-name, $operator-size, $size-modifier);
-            }
-        }
-    }
-}
-
-@include define-operators("m", "margin", 0.3);
-@include define-operators("p", "padding", 0.3);
