@@ -9,21 +9,23 @@ import 'bootstrap/scss/bootstrap-grid.scss'
 
 const App: React.FC = () => {
   return (
-    <div className="container">
-      <h1>App</h1>
-      <div className="row">
-        {VariantNames.map(name => (
-            <div key={name}>
-                <h3>{name}</h3>
-                <Button variant={name}>Submit</Button>
-                <Button variant={name} outline>Submit</Button>
-                <ReactiveButton variant={name}>Submit</ReactiveButton>
-                <ReactiveButton variant={name} outline>Submit</ReactiveButton>
-            </div>
-        ))}
-      </div>
+    <div className="container-fluid">
       <div className="row">
         <NavMenu></NavMenu>
+        <div className="col">
+          <h1>App</h1>
+          <div className="row">
+            {VariantNames.map(name => (
+                <div key={name}>
+                    <h3>{name}</h3>
+                    <Button variant={name}>Submit</Button>
+                    <Button variant={name} outline>Submit</Button>
+                    <ReactiveButton variant={name}>Submit</ReactiveButton>
+                    <ReactiveButton variant={name} outline>Submit</ReactiveButton>
+                </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

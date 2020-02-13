@@ -11,3 +11,9 @@ body {
   color: $body-color;
   background-color: $body-bg;
 }
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
