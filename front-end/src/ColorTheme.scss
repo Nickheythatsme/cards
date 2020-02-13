@@ -1,0 +1,19 @@
+@use "sass:map";
+@use "sass:string";
+
+$primary:                   #59344B;
+$secondary:                 #10A681;
+$tertiary:                  #ccbd7a;
+$success:                   #28a745;
+$info:                      #17a2b8;
+$warning:                   #ffc107;
+$danger:                    #dc3545;
+$light:                     #f8f9fa;
+$dark:                      #363636;
+
+$body-bg:                   $dark;
+$body-color:                $light;
+
+$theme-colors: (
+  "tertiary": $tertiary,
+);

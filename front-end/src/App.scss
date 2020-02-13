@@ -1,14 +1,13 @@
 @use "sass:map";
 @use "sass:string";
 
+@import './ColorTheme.scss';
+
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
 
-$theme-colors:map-remove($theme-colors, "primary");
-$theme-colors: map-merge(
-    (
-        "primary": #000,
-    ),
-    $theme-colors
-);
+body {
+  color: $body-color;
+  background-color: $body-bg;
+}

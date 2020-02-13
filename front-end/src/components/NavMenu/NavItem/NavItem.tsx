@@ -1,9 +1,9 @@
-import React, {useState, MouseEvent} from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import './NavItem.scss';
 
 function NavItem(props: any) {
-    return (<div>Nav Item!</div>)
+    return (<li>{props.children}</li>)
 }
 
 export default NavItem

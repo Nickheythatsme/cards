@@ -1,15 +1,15 @@
 import React, {useState, MouseEvent} from 'react';
+import {VariantTypes} from '../Theming';
 import classNames from 'classnames';
 import './Button.scss';
 
+const REACTIVE_TRANSITION_TIME = 100; // ms
+
 interface PropTypes {
     children?: React.ReactNode,
-    variant?: 'primary' | 'secondary' | 'info' | 'warning',
+    variant?: VariantTypes,
     outline?: boolean,
     className?: string,
-    onClick?: (e: MouseEvent) => any,
-    onMouseOut?: (e: MouseEvent) => any,
-    onMouseOver?: (e: MouseEvent) => any,
     [propName: string]: any
 }
 
@@ -26,7 +26,7 @@ const Button = React.forwardRef<any, PropTypes>(({outline, variant, className, .
     );
 });
 
-export const ReactiveButton = React.forwardRef<any, PropTypes>(({onClick, onMouseOver, onMouseOut, disabled, ...props}: PropTypes, ref: React.Ref<any>) => {
+export const ReactiveButton = React.forwardRef<any, PropTypes>(({...props}: PropTypes, ref: React.Ref<any>) => {
     const [isClicked, setIsClicked] = useState(false);
     const [isMouseOver, setIsMouseOver] = useState(false);
     let clickTimeout: any = null;
@@ -39,21 +39,17 @@ export const ReactiveButton = React.forwardRef<any, PropTypes>(({onClick, onMous
     );
 
     const handleClick = (e: MouseEvent) => {
-        if (!disabled) {
-            clearTimeout(clickTimeout);
-            setIsMouseOver(false);
-            setIsClicked(true);
-            clickTimeout = setTimeout(() => {setIsClicked(false)}, 200);
-        }
-        onClick && onClick(e);
+        clearTimeout(clickTimeout);
+        setIsMouseOver(false);
+        setIsClicked(true);
+        clickTimeout = setTimeout(() => {setIsClicked(false)}, REACTIVE_TRANSITION_TIME);
+        props.onClick && props.onClick(e);
     }
 
     const handleMouseOver = (value: boolean, e: MouseEvent) => {
-        if (!disabled) {
-            setIsMouseOver(value);
-        }
-        value && onMouseOver && onMouseOver(e);
-        !value && onMouseOut && onMouseOut(e);
+        setIsMouseOver(value);
+        value && props.onMouseOver && props.onMouseOver(e);
+        !value && props.onMouseOut && props.onMouseOut(e);
     }
 
     return (
@@ -64,7 +60,7 @@ export const ReactiveButton = React.forwardRef<any, PropTypes>(({onClick, onMous
             onMouseOut={(e: MouseEvent) => handleMouseOver(false, e)} 
             ref={ref} 
             className={className}
-            disabled={disabled}
+            disabled={props.disabled}
         >
             {props.children}
         </Button>

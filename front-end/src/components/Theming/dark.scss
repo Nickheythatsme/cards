@@ -1,0 +1,10 @@
+@import '../../App.scss';
+
+$theme-colors: map-remove($theme-colors, "primary");
+
+$theme-colors: map-merge(
+  (
+    "primary":    red,
+  ),
+  $theme-colors
+);

@@ -1,0 +1,505 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button style changes depending on props 1`] = `
+Array [
+  <button
+    className="btn btn-info"
+  >
+    info
+  </button>,
+  <div>
+    <h3>
+      primary
+    </h3>
+    <button
+      className="btn btn-primary"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-primary"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-primary-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-primary-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-primary"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-primary"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-primary-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-primary-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+  <div>
+    <h3>
+      secondary
+    </h3>
+    <button
+      className="btn btn-secondary"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-secondary"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-secondary-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-secondary-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-secondary"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-secondary"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-secondary-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-secondary-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+  <div>
+    <h3>
+      tertiary
+    </h3>
+    <button
+      className="btn btn-tertiary"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-tertiary"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-tertiary-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-tertiary-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-tertiary"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-tertiary"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-tertiary-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-tertiary-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+  <div>
+    <h3>
+      info
+    </h3>
+    <button
+      className="btn btn-info"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-info"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-info-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-info-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-info"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-info"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-info-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-info-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+  <div>
+    <h3>
+      warning
+    </h3>
+    <button
+      className="btn btn-warning"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-warning"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-warning-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-warning-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-warning"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-warning"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-warning-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-warning-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+  <div>
+    <h3>
+      danger
+    </h3>
+    <button
+      className="btn btn-danger"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-danger"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-danger-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-danger-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-danger"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-danger"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-danger-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-danger-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+  <div>
+    <h3>
+      light
+    </h3>
+    <button
+      className="btn btn-light"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-light"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-light-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-light-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-light"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-light"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-light-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-light-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+  <div>
+    <h3>
+      dark
+    </h3>
+    <button
+      className="btn btn-dark"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-dark"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-dark-outline"
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-dark-outline"
+      disabled={true}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-dark"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-dark"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-dark-outline"
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+    <button
+      className="btn btn-dark-outline"
+      disabled={true}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      Submit
+    </button>
+  </div>,
+]
+`;
+
+exports[`Reactive button changes state when hovered: after 1`] = `"btn btn-primary"`;
+
+exports[`Reactive button changes state when hovered: before 1`] = `"btn btn-primary"`;
+
+exports[`Reactive button changes state when hovered: during 1`] = `"btn btn-primary btn-clicked"`;
