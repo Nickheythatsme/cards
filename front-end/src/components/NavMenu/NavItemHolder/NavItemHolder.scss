@@ -1,0 +1,8 @@
+@import '../../../App.scss';
+
+.nav-item-holder {
+    display: flex;
+    position: initial;
+    z-index: 1000;
+    flex-direction: column;
+}
