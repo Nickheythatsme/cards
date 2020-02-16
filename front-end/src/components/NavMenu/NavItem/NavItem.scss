@@ -1,5 +1,7 @@
 @import '../../../App.scss';
 
+$transition-time: 300ms;
+
 @include media-breakpoint-up(xs) {
   .nav-item {
     display: flex;
@@ -9,7 +11,7 @@
     width: 100%;
     font-size: 1.5em;
     background-color: theme-color("secondary");
-    transition: all 500ms;
+    transition: all $transition-time;
     overflow: hidden;
     cursor: pointer;
     padding: {
@@ -47,8 +49,8 @@
   .nav-item-content {
     display: inline-block;
     position: relative;
-    transition: all 500ms;
-    transition-timing-function: ease-in-out;
+    transition: all $transition-time;
+    transition-timing-function: ease-out;
     padding-right: 10px;
     width: 100px;
 
@@ -75,7 +77,7 @@
   justify-content: flex-start;
   align-items: center;
   transition-timing-function: cubic-bezier(.17,.67,.83,.67);
-  transition: all 700ms;
+  transition: all $transition-time;
   padding: {
     left: 0.5rem;
     right: 0.5rem;
