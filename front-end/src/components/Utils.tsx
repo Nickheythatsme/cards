@@ -8,6 +8,14 @@ function _getWindowDimensions() {
   };
 }
 
+const breakPoints = {
+  xs: {min: 0, max: 576},
+  sm: {min: 576, max: 768},
+  md: {min: 768, max: 992},
+  lg: {min: 992, max: 1200},
+  xl: {min: 1200, max: Number.MAX_SAFE_INTEGER},
+}
+
 export function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(_getWindowDimensions());
 
@@ -23,16 +31,28 @@ export function useWindowDimensions() {
   return windowDimensions;
 }
 
+export function currentWindowBreakpoint(width: number) {
+  for (let breakPoint of Object.keys(breakPoints)) {
+    if (width >= (breakPoints as any)[breakPoint].min && 
+      width < (breakPoints as any)[breakPoint].max) {
+      return breakPoint;
+    }
+  }
+  return 'xl';
+}
+
 export function useWindowBreakpoint() {
-  const [windowDimensions, setWindowDimensions] = useState(_getWindowDimensions());
+  const [currentBreakpoint, setCurrentBreakpoint] = useState('xs');
+
   useEffect(() => {
     function handleResize() {
-      setWindowDimensions(_getWindowDimensions());
+      let {width} = _getWindowDimensions();
+      setCurrentBreakpoint(currentWindowBreakpoint(width));
     }
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return windowDimensions;
+  return currentBreakpoint;
 }

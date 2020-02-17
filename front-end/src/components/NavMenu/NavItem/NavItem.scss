@@ -23,9 +23,11 @@ $transition-time: 300ms;
       box-shadow: inset -1px 2px 5px black;
     }
     &.hidden {
-      transform: translateY(400px);
+      /*
+      transform: translateY(-400px);
       height: 0;
       padding: 0;
+      */
     }
   }
 }
@@ -34,6 +36,7 @@ $transition-time: 300ms;
 @include media-breakpoint-up(md) {
   .nav-item {
     &.hidden {
+      /*
       transform: translateY(0);
       height: auto;
       width: auto;
@@ -41,6 +44,7 @@ $transition-time: 300ms;
         top: 0.5rem;
         bottom: 0.5rem;
       }
+      */
     }
   }
 }
@@ -78,6 +82,10 @@ $transition-time: 300ms;
   align-items: center;
   transition-timing-function: cubic-bezier(.17,.67,.83,.67);
   transition: all $transition-time;
+  svg {
+    width: 1.5em;
+    height: 1.5em;
+  }
   padding: {
     left: 0.5rem;
     right: 0.5rem;
