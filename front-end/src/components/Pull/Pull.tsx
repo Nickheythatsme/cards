@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import { useSpring, animated } from 'react-spring'
 import {clamp} from 'lodash';
 import { useGesture } from 'react-with-gesture'

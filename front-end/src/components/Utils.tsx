@@ -31,7 +31,10 @@ export function useWindowDimensions() {
   return windowDimensions;
 }
 
-export function currentWindowBreakpoint(width: number) {
+export function currentWindowBreakpoint(width?: number) {
+  if (!width) {
+    width = _getWindowDimensions().width;
+  }
   for (let breakPoint of Object.keys(breakPoints)) {
     if (width >= (breakPoints as any)[breakPoint].min && 
       width < (breakPoints as any)[breakPoint].max) {
@@ -49,6 +52,8 @@ export function useWindowBreakpoint() {
       let {width} = _getWindowDimensions();
       setCurrentBreakpoint(currentWindowBreakpoint(width));
     }
+    console.log('size')
+    handleResize();
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
