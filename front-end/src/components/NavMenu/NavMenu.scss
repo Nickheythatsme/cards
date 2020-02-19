@@ -1,21 +1,6 @@
 @import '../../App.scss';
 
 @include media-breakpoint-up(xs) {
-    .nav-menu-buffer {
-        position: relative;
-        width: 100vw;
-        margin: 0;
-        padding: 0;
-    }
-}
-
-@include media-breakpoint-up(md) {
-    .nav-menu-buffer {
-        display: none;
-    }
-}
-
-@include media-breakpoint-up(xs) {
     .nav-menu {
         transition-property: top;
         transition-duration: 300ms;
@@ -25,9 +10,11 @@
         z-index: 1000;
         flex-direction: column-reverse;
         height: auto;
+        margin-top: -100vh;
+        border-top: 100vh theme-color("secondary") solid;
         width: 100vw;
         background-color: theme-color("secondary");
-        overflow: hidden;
+        overflow: show;
     }
 }
 

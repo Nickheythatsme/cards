@@ -52,7 +52,6 @@ export function useWindowBreakpoint() {
       let {width} = _getWindowDimensions();
       setCurrentBreakpoint(currentWindowBreakpoint(width));
     }
-    console.log('size')
     handleResize();
 
     window.addEventListener('resize', handleResize);

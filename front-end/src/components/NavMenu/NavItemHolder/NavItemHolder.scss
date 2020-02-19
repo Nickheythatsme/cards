@@ -3,6 +3,23 @@
 .nav-item-holder {
     display: flex;
     position: initial;
-    z-index: 1000;
+    z-index: 1001;
     flex-direction: column;
+}
+
+@include media-breakpoint-up(xs) {
+    .nav-menu-buffer {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background-color: theme-color("secondary");
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .nav-menu-buffer {
+        display: none;
+    }
 }

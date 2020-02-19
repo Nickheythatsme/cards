@@ -26,30 +26,36 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
     const [expandButtonSize, setExpandButtonSize] = useState(0);
     const [isExpanded, setIsExpanded] = useState(true);
     const [isMobile, setIsMobile] = useState(true);
+    const [isPeeking, setIsPeeking] = useState(isExpanded);
     const [{ xy }, set] = useSpring(() => ({ xy: [0, isExpanded ? 0 : expandButtonSize] }));
 
     const handleAction = (state: GestureState) => {
-        let { delta, velocity, args } = state;
+        let { xy, delta, velocity, args } = state;
+        let [_isExpanded, , expandButtonSize, isMobile, _setIsPeeking] = args;
         velocity = clamp(velocity, 1, 8);
-        let [_isExpanded, _, expandButtonSize, isMobile] = args;
-        let adjustedDelta = [0, _isExpanded ? delta[1] : delta[1] - expandButtonSize];
+        let adjustedDelta = [0, _isExpanded ? delta[1] : xy[1] - expandButtonSize];
         if (!isMobile) {
             set({ xy: [0, 0], config: { mass: 1, tension: 500, friction: 50 } })
             return;
         }
+        if (Math.abs(delta[1]) > 30) {
+            _setIsPeeking(delta[1] > 0);
+        }
         set({ 
-            xy: adjustedDelta, 
+            xy: adjustedDelta,
             config: { mass: velocity, tension: 500 * velocity, friction: 50 } 
         });
     }
 
     const handleUp = ({args, delta}: GestureState) => {
-        let [_, _setIsExpanded] = args;
+        // eslint-disable-next-line
+        let [, _setIsExpanded, , , _setIsPeeking] = args;
         if (delta[1] > 200) {
             _setIsExpanded(true);
         } else if (delta[1] < -100) {
             _setIsExpanded(false);
         }
+        _setIsPeeking(isExpanded);
         let restingPos = [0, isExpanded ? 0 : -expandButtonSize];
         set({ 
             xy: restingPos, 
@@ -67,7 +73,6 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
             setExpandButtonSize((expandButton as any).current.offsetTop);
         }
         setIsMobile(props.isMobile)
-        window.addEventListener('resize', () => setIsMobile(props.isMobile));
         if (isMobile) {
             let restingPos = [0, isExpanded ? 0 : -expandButtonSize];
             set({ 
@@ -77,16 +82,21 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
         } else {
             set({xy: [0,0]})
         }
-    }, [expandButtonSize, setExpandButtonSize, isExpanded, setIsMobile, isMobile]);
+    }, [props, set, expandButtonSize, setExpandButtonSize, isExpanded, setIsMobile, isMobile]);
 
     const formatStyle = (xy: any) => ({
         transform: xy.interpolate((x: any, y: any) => `translateY(${y}px)`)
     });
 
+    const handleClick = () => {
+        setIsExpanded(!isExpanded)
+        setIsPeeking(!isExpanded);
+    }
+
     return (
-        <animated.div {...bind(isExpanded, setIsExpanded, expandButtonSize, isMobile)} className="nav-menu" style={formatStyle(xy)}>
-            <ExpandButton onClick={() => setIsExpanded(!isExpanded)} ref={expandButton} isExpanded={isExpanded}/>
-            <NavItemHolder isExpanded={isExpanded} />
+        <animated.div {...bind(isExpanded, setIsExpanded, expandButtonSize, isMobile, setIsPeeking)} className="nav-menu" style={formatStyle(xy)}>
+            <ExpandButton onClick={handleClick} ref={expandButton} isExpanded={isExpanded}/>
+            <NavItemHolder isPeeking={isPeeking}/>
         </animated.div>
     );
 };
