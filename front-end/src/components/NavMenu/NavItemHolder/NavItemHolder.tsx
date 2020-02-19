@@ -19,7 +19,7 @@ export default function NavItemHolder(props: PropTypes) {
         {icon: (<IoMdHome/>), name: 'Home'},
         {icon: (<IoIosHappy/>), name: 'Profile'},
         {icon: (<IoMdSettings/>), name: 'Settings'},
-        {icon: (<IoIosTrophy/>), name: 'Find tasks'}
+        //{icon: (<IoIosTrophy/>), name: 'Find tasks'}
     ];
     const trail = useTrail(navItems.length, {
         x: isPeeking ? 0 : -200,

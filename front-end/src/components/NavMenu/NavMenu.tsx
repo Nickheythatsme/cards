@@ -3,9 +3,8 @@ import './NavMenu.scss';
 import NavItemHolder from './NavItemHolder';
 import { IoIosArrowUp } from "react-icons/io";
 import { useSpring, animated } from 'react-spring'
-import { clamp } from 'lodash';
 import { useGesture, GestureState } from 'react-with-gesture'
-import { currentWindowBreakpoint } from '../Utils';
+import { currentWindowBreakpoint, clamp } from '../Utils';
 
 interface StateTypes {
     isMobile: boolean,
