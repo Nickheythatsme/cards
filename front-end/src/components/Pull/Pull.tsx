@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSpring, animated } from 'react-spring'
-import {clamp} from 'lodash';
+import {clamp} from '../Utils';
 import { useGesture } from 'react-with-gesture'
 import './Pull.scss'
 

@@ -3,7 +3,8 @@ import './NavMenu.scss';
 import NavItemHolder from './NavItemHolder';
 import { IoIosArrowUp } from "react-icons/io";
 import { useSpring, animated } from 'react-spring'
-import { useGesture, GestureState } from 'react-with-gesture'
+import { useGesture, useDrag } from 'react-use-gesture'
+import {FullGestureState} from 'react-use-gesture/dist/types';
 import { currentWindowBreakpoint, clamp } from '../Utils';
 
 interface StateTypes {
@@ -28,8 +29,7 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
     const [isPeeking, setIsPeeking] = useState(isExpanded);
     const [{ xy }, set] = useSpring(() => ({ xy: [0, isExpanded ? 0 : expandButtonSize] }));
 
-    const handleAction = (state: GestureState) => {
-        let { xy, delta, velocity, args } = state;
+    const handleAction = ({ xy, delta, velocity, args }: FullGestureState<'move'>) => {
         let [_isExpanded, , expandButtonSize, isMobile, _setIsPeeking] = args;
         velocity = clamp(velocity, 1, 8);
         let adjustedDelta = [0, _isExpanded ? delta[1] : xy[1] - expandButtonSize];
@@ -46,8 +46,7 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
         });
     }
 
-    const handleUp = ({args, delta}: GestureState) => {
-        // eslint-disable-next-line
+    const handleUp = ({args, delta}: FullGestureState<'move'>) => {
         let [, _setIsExpanded, , , _setIsPeeking] = args;
         if (delta[1] > 200) {
             _setIsExpanded(true);
@@ -63,8 +62,8 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
     }
 
     const bind = useGesture({
-        onAction: handleAction,
-        onUp: handleUp,
+        onMove: handleAction,
+        onMoveEnd: handleUp,
     })
 
     useEffect(() => {
