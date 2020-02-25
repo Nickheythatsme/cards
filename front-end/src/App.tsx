@@ -2,7 +2,6 @@ import React from 'react';
 import Button, {ReactiveButton} from './components/Button';
 import NavMenu from './components/NavMenu';
 import {VariantNames} from './components/Theming';
-import Pull from './components/Pull/Pull';
 import './App.scss'
 import './components/Theming/dark.scss';
 import 'bootstrap/scss/bootstrap-grid.scss'
@@ -26,9 +25,6 @@ const App: React.FC = () => {
                     <ReactiveButton variant={name} outline>Submit</ReactiveButton>
                 </div>
             ))}
-          </div>
-          <div className="row">
-            <Pull/>
           </div>
         </div>
       </div>

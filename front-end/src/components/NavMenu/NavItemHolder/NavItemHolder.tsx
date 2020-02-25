@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import NavItem from '../NavItem';
 import { useTrail, animated } from 'react-spring'
-import { IoIosHappy, IoMdHome, IoMdSettings, IoIosTrophy } from "react-icons/io";
+import { IoIosHappy, IoMdHome, IoMdSettings } from "react-icons/io";
 import { useWindowBreakpoint } from '../../Utils';
 import './NavItemHolder.scss'
 

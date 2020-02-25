@@ -3,7 +3,7 @@ import './NavMenu.scss';
 import NavItemHolder from './NavItemHolder';
 import { IoIosArrowUp } from "react-icons/io";
 import { useSpring, animated } from 'react-spring'
-import { useGesture, useDrag } from 'react-use-gesture'
+import { useGesture } from 'react-use-gesture'
 import {FullGestureState} from 'react-use-gesture/dist/types';
 import { currentWindowBreakpoint, clamp } from '../Utils';
 
