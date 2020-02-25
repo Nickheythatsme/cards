@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import NavItem from '../NavItem';
 import { useTrail, animated } from 'react-spring'
-import { IoIosHappy, IoMdHome, IoMdSettings } from "react-icons/io";
+import { IoIosTrophy, IoIosHappy, IoMdHome, IoMdSettings } from "react-icons/io";
 import { useWindowBreakpoint } from '../../Utils';
 import './NavItemHolder.scss'
 
 interface PropTypes {
     children?: React.ReactNode,
-    isPeeking: boolean,
+    percentExpanded: number,
 }
 
 export default function NavItemHolder(props: PropTypes) {
     const [activeItem, setActiveItem] = useState('Home');
-    const [isPeeking, setIsPeeking] = useState(props.isPeeking);
+    const [isPeeking, setIsPeeking] = useState(false);
     const [isMobile, setIsMobile] = useState(true);
     const br = useWindowBreakpoint();
     const navItems = [
         {icon: (<IoMdHome/>), name: 'Home'},
         {icon: (<IoIosHappy/>), name: 'Profile'},
         {icon: (<IoMdSettings/>), name: 'Settings'},
-        //{icon: (<IoIosTrophy/>), name: 'Find tasks'}
+        {icon: (<IoIosTrophy/>), name: 'Tasks'}
     ];
     const trail = useTrail(navItems.length, {
         x: isPeeking ? 0 : -200,
@@ -30,9 +30,13 @@ export default function NavItemHolder(props: PropTypes) {
     });
 
     useEffect(() => {
-        setIsPeeking(props.isPeeking);
+        if (props.percentExpanded > 70) {
+            setIsPeeking(true);
+        } else {
+            setIsPeeking(false);
+        }
         setIsMobile(['xs', 'sm'].includes(br));
-    }, [props, setIsPeeking, isPeeking, br, setIsMobile, isMobile]);
+    }, [props, setIsPeeking, br, setIsMobile, isMobile]);
 
     return (
         <div className="nav-item-holder">

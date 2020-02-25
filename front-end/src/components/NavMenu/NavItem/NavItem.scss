@@ -56,7 +56,7 @@ $transition-time: 300ms;
     transition: all $transition-time;
     transition-timing-function: ease-out;
     padding-right: 10px;
-    width: 100px;
+    width: 300px;
 
     &.hidden {
       width: 100%;
@@ -68,6 +68,7 @@ $transition-time: 300ms;
 
 @include media-breakpoint-up(md) {
   .nav-item-content {
+    max-width: 100px;
     &.hidden {
       width: 0;
       padding-right: 0;
