@@ -8,28 +8,31 @@ import { useDrag } from 'react-use-gesture'
 import {FullGestureState} from 'react-use-gesture/dist/types';
 import { currentWindowBreakpoint, clamp } from '../Utils';
 
-interface StateTypes {
+interface NavMenuStateTypes {
     isMobile: boolean,
 }
 
-interface FoldableMenuArgs {
+interface MenuArgs {
     percentExpanded: number,
     setIsExpanded: (value: boolean) => void,
 }
-interface FoldableMenuPropTypes {
-    children: (results: FoldableMenuArgs) => React.ReactNode,
+
+interface MenuPropTypes {
+    children: (results: MenuArgs) => React.ReactNode,
 }
 
+
 const ExpandButton = React.forwardRef(({percentExpanded, className, ...props}: any, ref: React.Ref<any>) => {
-    const[currentStyle, setCurrentStyle]: [any, any] = useState({transform: 'rotate(90deg)'});
+    const [currentStyle, setCurrentStyle]: [any, any] = useState(null);
+    const [prevPercent, setPrevPercent] = useState(0);
     useEffect(() => {
-        if (percentExpanded) {
-            let adjustedPercentExpanded = clamp(percentExpanded, 0, 100);
-            setCurrentStyle({transform: `rotate(${180 - 1.8*adjustedPercentExpanded}deg)`.toString()});
-        } else {
-            setCurrentStyle(null);
+        if (percentExpanded !== undefined && percentExpanded !== prevPercent) {
+            // eslint-disable-next-line
+            percentExpanded = clamp(percentExpanded, 0, 100);
+            setCurrentStyle({transform: `rotate(${180 - 1.8*percentExpanded}deg)`.toString()});
+            setPrevPercent(percentExpanded);
         }
-    }, [percentExpanded, setCurrentStyle])
+    }, [percentExpanded, setCurrentStyle, prevPercent, setPrevPercent])
     return (
         <div {...props} ref={ref} className={classnames("expand-button", className)} style={currentStyle}>
             <IoIosArrowUp/>
@@ -37,28 +40,29 @@ const ExpandButton = React.forwardRef(({percentExpanded, className, ...props}: a
     );
 });
 
-function FoldableMenu(props: FoldableMenuPropTypes) {
+function FoldableMenu(props: MenuPropTypes) {
     const expandButton = useRef(null);
     const [expandButtonOffset, setExpandButtonOffset] = useState(0);
     const [lastOffset, setLastOffset] = useState(0);
     const [percentExpanded, setPercentExpanded] = useState(0);
     const [{ y }, set] = useSpring(() => ({ y: 0 }));
+
     const bind = useDrag(({down, velocity, args, movement, xy}: FullGestureState<"drag">) => {
-        let [expandButtonOffset, lastOffset, setLastOffset, setPercentExpanded] = args;
+        let [expandButtonOffset, lastOffset, setPercentExpanded] = args;
         velocity = clamp(velocity, 1, 8);
-        if (Math.abs(movement[1]) < 20) {
+        if (Math.abs(movement[1]) < 10) {
             return;
         }
         let y = movement[1] - lastOffset;
         if (!down) {
             if (xy[1] > (expandButtonOffset/2)) {
                 console.log('greater than expandButtonOffset');
-                y = 0;
-                setLastOffset(0);
+                toggleExpand(true);
+                return;
             }
             else {
-                y = -expandButtonOffset;
-                setLastOffset(expandButtonOffset);
+                toggleExpand(false);
+                return;
             }
         }
         let percent = (100/Math.abs(expandButtonOffset)) * y + 100;
@@ -88,7 +92,8 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
 
     const toggleExpand = (doExpand?: boolean) => {
         let config = { mass: 1, tension: 500, friction: 50 };
-        if (doExpand === true || lastOffset > 0) {
+        if (doExpand === true || (doExpand !== false && lastOffset > 0)) {
+            console.log('doExpand');
             setPercentExpanded(100);
             setLastOffset(0);
             set({y: 0, config});
@@ -100,7 +105,7 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
     }
 
     return (
-        <animated.div {...bind(expandButtonOffset, lastOffset, setLastOffset, setPercentExpanded)} className="nav-menu" style={formatStyle(y)}>
+        <animated.div {...bind(expandButtonOffset, lastOffset, setPercentExpanded)} className="nav-menu" style={formatStyle(y)}>
             <ExpandButton onClick={toggleExpand} ref={expandButton} percentExpanded={percentExpanded}/>
             {props.children({percentExpanded, setIsExpanded: toggleExpand})}
         </animated.div>
@@ -108,26 +113,18 @@ function FoldableMenu(props: FoldableMenuPropTypes) {
 };
 
 
-interface FixedMenuArgs {
-    isExpanded: boolean
-}
-
-interface FixedMenuPropTypes {
-    children: (results: FixedMenuArgs) => React.ReactNode,
-}
-
-function FixedMenu(props: FixedMenuPropTypes) {
+function FixedMenu(props: MenuPropTypes) {
     const [isExpanded, setIsExpanded] = useState(true);
     
     return (
         <div className="nav-menu">
             <ExpandButton onClick={() => {setIsExpanded(!isExpanded)}} className={isExpanded ? "expand" : ""} />
-            {props.children({isExpanded})}
+            {props.children({percentExpanded: isExpanded ? 100 : 0, setIsExpanded})}
         </div>
     )
 }
 
-export default class NavMenu extends React.Component<any, StateTypes> {
+export default class NavMenu extends React.Component<any, NavMenuStateTypes> {
     state = {
         navMenuPosition: 0,
         navMenuBuffer: 0,
@@ -164,7 +161,10 @@ export default class NavMenu extends React.Component<any, StateTypes> {
                     <FoldableMenu>
                         {
                             ({percentExpanded, setIsExpanded}) => (
-                                <NavItemHolder percentExpanded={percentExpanded}/>
+                                <NavItemHolder
+                                    percentExpanded={percentExpanded}
+                                    onSelect={() => setTimeout(() => setIsExpanded(false), 400)}
+                                />
                             )
                         }
                     </FoldableMenu>
@@ -174,7 +174,12 @@ export default class NavMenu extends React.Component<any, StateTypes> {
             return (
                 <FixedMenu>
                     {
-                        ({isExpanded}) => <NavItemHolder percentExpanded={isExpanded ? 100 : 0}/>
+                        ({percentExpanded, setIsExpanded}) => (
+                            <NavItemHolder 
+                                percentExpanded={percentExpanded} 
+                                onSelect={() => setIsExpanded(false)}
+                            />
+                        )
                     }
                 </FixedMenu>
             )
