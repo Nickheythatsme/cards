@@ -1,141 +1,231 @@
-import React, { useRef, useState, useEffect } from 'react';
-import './NavMenu.scss';
-import NavItemHolder from './NavItemHolder';
-import { IoIosArrowUp } from "react-icons/io";
+import React, { useRef, useState, useEffect } from 'react'
+import { useDrag } from 'react-use-gesture'
+import classnames from 'classnames'
+import { IoIosArrowUp } from 'react-icons/io'
 import { useSpring, animated } from 'react-spring'
-import { useGesture } from 'react-use-gesture'
-import {FullGestureState} from 'react-use-gesture/dist/types';
-import { currentWindowBreakpoint, clamp } from '../Utils';
+import { FullGestureState } from 'react-use-gesture/dist/types'
+import { currentWindowBreakpoint, clamp } from '../Utils'
+import NavItemHolder from './NavItemHolder'
+import './NavMenu.scss'
 
-interface StateTypes {
-    isMobile: boolean,
+interface NavMenuStateTypes {
+    isMobile: boolean
 }
 
-interface FoldableMenuPropTypes {
-    isMobile: boolean,
+interface MenuArgs {
+    percentExpanded: number
+    setIsExpanded: (value: boolean) => void
 }
 
-const ExpandButton = React.forwardRef(({isExpanded, ...props}: any, ref: React.Ref<any>) => (
-    <div {...props} ref={ref} className={`expand-button${isExpanded ? ' expand' : ''}`}>
-        <IoIosArrowUp/>
-    </div>
-));
+interface MenuPropTypes {
+    children: (results: MenuArgs) => React.ReactNode
+}
 
-function FoldableMenu(props: FoldableMenuPropTypes) {
-    const expandButton = useRef(null);
-    const [expandButtonSize, setExpandButtonSize] = useState(0);
-    const [isExpanded, setIsExpanded] = useState(true);
-    const [isMobile, setIsMobile] = useState(true);
-    const [isPeeking, setIsPeeking] = useState(isExpanded);
-    const [{ xy }, set] = useSpring(() => ({ xy: [0, isExpanded ? 0 : expandButtonSize] }));
-
-    const handleAction = ({ xy, delta, velocity, args }: FullGestureState<'move'>) => {
-        let [_isExpanded, , expandButtonSize, isMobile, _setIsPeeking] = args;
-        velocity = clamp(velocity, 1, 8);
-        let adjustedDelta = [0, _isExpanded ? delta[1] : xy[1] - expandButtonSize];
-        if (!isMobile) {
-            set({ xy: [0, 0], config: { mass: 1, tension: 500, friction: 50 } })
-            return;
-        }
-        if (Math.abs(delta[1]) > 30) {
-            _setIsPeeking(delta[1] > 0);
-        }
-        set({ 
-            xy: adjustedDelta,
-            config: { mass: velocity, tension: 500 * velocity, friction: 50 } 
-        });
+const ExpandButton = React.forwardRef(
+    ({ percentExpanded, className, ...props }: any, ref: React.Ref<any>) => {
+        const [currentStyle, setCurrentStyle]: [any, any] = useState(null)
+        const [prevPercent, setPrevPercent] = useState(0)
+        useEffect(() => {
+            if (
+                percentExpanded !== undefined &&
+                percentExpanded !== prevPercent
+            ) {
+                // eslint-disable-next-line
+                percentExpanded = clamp(percentExpanded, 0, 100)
+                setCurrentStyle({
+                    transform: `rotate(${180 -
+                        1.8 * percentExpanded}deg)`.toString(),
+                })
+                setPrevPercent(percentExpanded)
+            }
+        }, [percentExpanded, setCurrentStyle, prevPercent, setPrevPercent])
+        return (
+            <div
+                {...props}
+                ref={ref}
+                className={classnames('expand-button', className)}
+                style={currentStyle}
+            >
+                <IoIosArrowUp />
+            </div>
+        )
     }
+)
 
-    const handleUp = ({args, delta}: FullGestureState<'move'>) => {
-        let [, _setIsExpanded, , , _setIsPeeking] = args;
-        if (delta[1] > 200) {
-            _setIsExpanded(true);
-        } else if (delta[1] < -100) {
-            _setIsExpanded(false);
+function FoldableMenu(props: MenuPropTypes) {
+    const expandButton = useRef(null)
+    const [expandButtonOffset, setExpandButtonOffset] = useState(0)
+    const [lastOffset, setLastOffset] = useState(0)
+    const [percentExpanded, setPercentExpanded] = useState(0)
+    const [{ y }, set] = useSpring(() => ({ y: 0 }))
+
+    const bind = useDrag(
+        ({ down, velocity, args, movement, xy }: FullGestureState<'drag'>) => {
+            let [expandButtonOffset, lastOffset, setPercentExpanded] = args
+            velocity = clamp(velocity, 1, 8)
+            if (Math.abs(movement[1]) < 10) {
+                return
+            }
+            let y = movement[1] - lastOffset
+            if (!down) {
+                if (xy[1] > expandButtonOffset / 2) {
+                    toggleExpand(true)
+                    return
+                } else {
+                    toggleExpand(false)
+                    return
+                }
+            }
+            let percent = (100 / Math.abs(expandButtonOffset)) * y + 100
+            setPercentExpanded(percent)
+            set({
+                y: y,
+                config: {
+                    mass: velocity / 2,
+                    tension: 500 * velocity,
+                    friction: 50,
+                },
+            })
         }
-        _setIsPeeking(isExpanded);
-        let restingPos = [0, isExpanded ? 0 : -expandButtonSize];
-        set({ 
-            xy: restingPos, 
-            config: { mass: 1, tension: 500, friction: 50 } 
-        })
-    }
-
-    const bind = useGesture({
-        onMove: handleAction,
-        onMoveEnd: handleUp,
-    })
+    )
 
     useEffect(() => {
-        if (expandButtonSize === 0 && expandButton && (expandButton as any).current) {
-            setExpandButtonSize((expandButton as any).current.offsetTop);
-        }
-        setIsMobile(props.isMobile)
-        if (isMobile) {
-            let restingPos = [0, isExpanded ? 0 : -expandButtonSize];
-            set({ 
-                xy: restingPos, 
-                config: { mass: 1, tension: 500, friction: 50 } 
+        if (
+            expandButtonOffset === 0 &&
+            expandButton &&
+            (expandButton as any).current
+        ) {
+            let offset: number = (expandButton as any).current.offsetTop
+            setExpandButtonOffset(offset)
+            setLastOffset(offset)
+            setPercentExpanded(0)
+            set({
+                y: -offset,
+                config: { mass: 1, tension: 200, friction: 50, duration: 0 },
             })
-        } else {
-            set({xy: [0,0]})
         }
-    }, [props, set, expandButtonSize, setExpandButtonSize, isExpanded, setIsMobile, isMobile]);
+    }, [
+        expandButtonOffset,
+        setExpandButtonOffset,
+        expandButton,
+        setLastOffset,
+        setPercentExpanded,
+        percentExpanded,
+        set,
+    ])
 
-    const formatStyle = (xy: any) => ({
-        transform: xy.interpolate((x: any, y: any) => `translateY(${y}px)`)
-    });
+    const formatStyle = (y: any) => ({
+        transform: y.interpolate((y: any) => `translateY(${y}px)`),
+    })
 
-    const handleClick = () => {
-        setIsExpanded(!isExpanded)
-        setIsPeeking(!isExpanded);
+    const toggleExpand = (doExpand?: boolean) => {
+        let config = { mass: 1, tension: 500, friction: 50 }
+        if (doExpand === true || (doExpand !== false && lastOffset > 0)) {
+            setPercentExpanded(100)
+            setLastOffset(0)
+            set({ y: 0, config })
+        } else {
+            setPercentExpanded(0)
+            setLastOffset(expandButtonOffset)
+            set({ y: -expandButtonOffset, config })
+        }
     }
 
     return (
-        <animated.div {...bind(isExpanded, setIsExpanded, expandButtonSize, isMobile, setIsPeeking)} className="nav-menu" style={formatStyle(xy)}>
-            <ExpandButton onClick={handleClick} ref={expandButton} isExpanded={isExpanded}/>
-            <NavItemHolder isPeeking={isPeeking}/>
+        <animated.div
+            {...bind(expandButtonOffset, lastOffset, setPercentExpanded)}
+            className="nav-menu"
+            style={formatStyle(y)}
+        >
+            <ExpandButton
+                onClick={toggleExpand}
+                ref={expandButton}
+                percentExpanded={percentExpanded}
+            />
+            {props.children({ percentExpanded, setIsExpanded: toggleExpand })}
         </animated.div>
-    );
-};
+    )
+}
 
-export default class NavMenu extends React.Component<any, StateTypes> {
+function FixedMenu(props: MenuPropTypes) {
+    const [isExpanded, setIsExpanded] = useState(true)
+
+    return (
+        <div className="nav-menu">
+            <ExpandButton
+                onClick={() => {
+                    setIsExpanded(!isExpanded)
+                }}
+                className={isExpanded ? 'expand' : ''}
+            />
+            {props.children({
+                percentExpanded: isExpanded ? 100 : 0,
+                setIsExpanded,
+            })}
+        </div>
+    )
+}
+
+export default class NavMenu extends React.Component<any, NavMenuStateTypes> {
     state = {
         navMenuPosition: 0,
         navMenuBuffer: 0,
         isMobile: false,
     }
-    private containerRef: React.Ref<any>;
+    private containerRef: React.Ref<any>
 
     constructor(props: any) {
-        super(props);
-        this.handleResize = this.handleResize.bind(this);
-        this.containerRef = React.createRef();
+        super(props)
+        this.handleResize = this.handleResize.bind(this)
+        this.containerRef = React.createRef()
     }
 
     componentDidMount() {
-        this.handleResize();
-        window.addEventListener('resize', this.handleResize);
+        this.handleResize()
+        window.addEventListener('resize', this.handleResize)
         if (this.containerRef && (this.containerRef as any).current) {
-            (this.containerRef as any).current.addEventListener('touchmove', (e: TouchEvent) => {
-                e.preventDefault();
-            });
+            ;(this.containerRef as any).current.addEventListener(
+                'touchmove',
+                (e: TouchEvent) => {
+                    e.preventDefault()
+                }
+            )
         }
     }
 
     handleResize() {
         this.setState({
-            isMobile: ['xs', 'sm'].includes(currentWindowBreakpoint())
-        }, () => console.debug('isMobile: ', this.state.isMobile));
+            isMobile: ['xs', 'sm'].includes(currentWindowBreakpoint()),
+        })
     }
 
     render() {
-        return (
-            <div ref={this.containerRef}>
-                <FoldableMenu
-                    isMobile={this.state.isMobile}
-                />
-            </div>
-        )
+        if (this.state.isMobile) {
+            return (
+                <div ref={this.containerRef}>
+                    <FoldableMenu>
+                        {({ percentExpanded, setIsExpanded }) => (
+                            <NavItemHolder
+                                percentExpanded={percentExpanded}
+                                onSelect={() =>
+                                    setTimeout(() => setIsExpanded(false), 400)
+                                }
+                            />
+                        )}
+                    </FoldableMenu>
+                </div>
+            )
+        } else {
+            return (
+                <FixedMenu>
+                    {({ percentExpanded, setIsExpanded }) => (
+                        <NavItemHolder
+                            percentExpanded={percentExpanded}
+                            onSelect={() => setIsExpanded(false)}
+                        />
+                    )}
+                </FixedMenu>
+            )
+        }
     }
 }

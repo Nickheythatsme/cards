@@ -1,2 +1,2 @@
-import NavItemHolder from './NavItemHolder';
-export default NavItemHolder;
+import NavItemHolder from './NavItemHolder'
+export default NavItemHolder
