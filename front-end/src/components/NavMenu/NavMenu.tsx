@@ -69,7 +69,6 @@ function FoldableMenu(props: MenuPropTypes) {
             let y = movement[1] - lastOffset
             if (!down) {
                 if (xy[1] > expandButtonOffset / 2) {
-                    console.log('greater than expandButtonOffset')
                     toggleExpand(true)
                     return
                 } else {
@@ -122,7 +121,6 @@ function FoldableMenu(props: MenuPropTypes) {
     const toggleExpand = (doExpand?: boolean) => {
         let config = { mass: 1, tension: 500, friction: 50 }
         if (doExpand === true || (doExpand !== false && lastOffset > 0)) {
-            console.log('doExpand')
             setPercentExpanded(100)
             setLastOffset(0)
             set({ y: 0, config })
@@ -196,12 +194,9 @@ export default class NavMenu extends React.Component<any, NavMenuStateTypes> {
     }
 
     handleResize() {
-        this.setState(
-            {
-                isMobile: ['xs', 'sm'].includes(currentWindowBreakpoint()),
-            },
-            () => console.debug('isMobile: ', this.state.isMobile)
-        )
+        this.setState({
+            isMobile: ['xs', 'sm'].includes(currentWindowBreakpoint()),
+        })
     }
 
     render() {

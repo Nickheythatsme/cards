@@ -11,17 +11,18 @@ interface PropTypes {
     onSelect?: (name: string) => void
 }
 
+export const navItems = [
+    { icon: <IoMdHome />, name: 'Home' },
+    { icon: <IoIosHappy />, name: 'Profile' },
+    { icon: <IoMdSettings />, name: 'Settings' },
+    { icon: <IoIosTrophy />, name: 'Tasks' },
+]
+
 export default function NavItemHolder(props: PropTypes) {
     const [activeItem, setActiveItem] = useState('Home')
     const [isPeeking, setIsPeeking] = useState(false)
     const [isMobile, setIsMobile] = useState(true)
     const br = useWindowBreakpoint()
-    const navItems = [
-        { icon: <IoMdHome />, name: 'Home' },
-        { icon: <IoIosHappy />, name: 'Profile' },
-        { icon: <IoMdSettings />, name: 'Settings' },
-        { icon: <IoIosTrophy />, name: 'Tasks' },
-    ]
     const trail = useTrail(navItems.length, {
         x: isPeeking ? 0 : -200,
         from: {
