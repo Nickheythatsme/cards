@@ -34,7 +34,6 @@ const Card = React.forwardRef<HTMLDivElement, CardPropTypes>((props, ref) => (
     </div>
 ))
 Card.displayName = 'card'
-
 ;(Card as CardModule).Heading = React.forwardRef<HTMLDivElement, CardPropTypes>(
     (props, ref) => (
         <div
@@ -46,7 +45,6 @@ Card.displayName = 'card'
         </div>
     )
 )
-
 ;(Card as CardModule).Title = React.forwardRef<
     HTMLHeadingElement,
     CardPropTypes
@@ -59,7 +57,6 @@ Card.displayName = 'card'
         {props.children}
     </h3>
 ))
-
 ;(Card as CardModule).Subtitle = React.forwardRef<
     HTMLHeadingElement,
     CardPropTypes
@@ -72,7 +69,6 @@ Card.displayName = 'card'
         {props.children}
     </h4>
 ))
-
 ;(Card as CardModule).Body = React.forwardRef<HTMLDivElement, CardPropTypes>(
     (props, ref) => (
         <div
@@ -84,7 +80,6 @@ Card.displayName = 'card'
         </div>
     )
 )
-
 ;(Card as CardModule).Image = React.forwardRef<
     HTMLImageElement,
     CardImagePropTypes
