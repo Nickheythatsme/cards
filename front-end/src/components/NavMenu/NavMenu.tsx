@@ -10,6 +10,7 @@ import './NavMenu.scss'
 
 interface NavMenuStateTypes {
     isMobile: boolean
+    listenersSet: boolean
 }
 
 interface MenuArgs {
@@ -19,6 +20,7 @@ interface MenuArgs {
 
 interface MenuPropTypes {
     children: (results: MenuArgs) => React.ReactNode
+    containerRef: React.Ref<any>
 }
 
 const ExpandButton = React.forwardRef(
@@ -136,6 +138,7 @@ function FoldableMenu(props: MenuPropTypes) {
             {...bind(expandButtonOffset, lastOffset, setPercentExpanded)}
             className="nav-menu"
             style={formatStyle(y)}
+            ref={props.containerRef}
         >
             <ExpandButton
                 onClick={toggleExpand}
@@ -168,9 +171,8 @@ function FixedMenu(props: MenuPropTypes) {
 
 export default class NavMenu extends React.Component<any, NavMenuStateTypes> {
     state = {
-        navMenuPosition: 0,
-        navMenuBuffer: 0,
         isMobile: false,
+        listenersSet: false,
     }
     private containerRef: React.Ref<any>
 
@@ -183,7 +185,12 @@ export default class NavMenu extends React.Component<any, NavMenuStateTypes> {
     componentDidMount() {
         this.handleResize()
         window.addEventListener('resize', this.handleResize)
-        if (this.containerRef && (this.containerRef as any).current) {
+    }
+
+    componentDidUpdate() {
+        if (!this.state.listenersSet && (this.containerRef as any).current) {
+            this.setState({ listenersSet: true })
+            console.log('adding listeners')
             ;(this.containerRef as any).current.addEventListener(
                 'touchmove',
                 (e: TouchEvent) => {
@@ -203,7 +210,7 @@ export default class NavMenu extends React.Component<any, NavMenuStateTypes> {
         if (this.state.isMobile) {
             return (
                 <div ref={this.containerRef}>
-                    <FoldableMenu>
+                    <FoldableMenu containerRef={this.containerRef}>
                         {({ percentExpanded, setIsExpanded }) => (
                             <NavItemHolder
                                 percentExpanded={percentExpanded}
@@ -217,7 +224,7 @@ export default class NavMenu extends React.Component<any, NavMenuStateTypes> {
             )
         } else {
             return (
-                <FixedMenu>
+                <FixedMenu containerRef={this.containerRef}>
                     {({ percentExpanded, setIsExpanded }) => (
                         <NavItemHolder
                             percentExpanded={percentExpanded}

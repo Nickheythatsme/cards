@@ -1,0 +1,49 @@
+@import '../../App.scss';
+
+@include media-breakpoint-up(xs) {
+    .card {
+        border-radius: 6px;
+        background-color: theme-color("info");
+        padding: 0;
+        overflow: hidden;
+        margin: {
+            top: 1rem;
+            bottom: 1rem;
+        }
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1);
+    }
+
+    .card-heading {
+        background-color: darken(theme-color("info"), 10);
+        padding: {
+            left: 1rem;
+            right: 1rem;
+            top: 0.5rem;
+            bottom: 0.5rem;
+        }
+        margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+        margin:0;
+    }
+
+    .card-subtitle {
+        @extend .card-title;
+        color: darken(theme-color("light"), 8);
+        font-weight: normal;
+    }
+
+    .card-body {
+        padding: 1em;
+        overflow-wrap: break-word;
+    }
+
+    .card-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
