@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useDrag } from 'react-use-gesture'
 import classnames from 'classnames';
-import './NavMenu.scss';
-import NavItemHolder from './NavItemHolder';
 import { IoIosArrowUp } from "react-icons/io";
 import { useSpring, animated } from 'react-spring'
-import { useDrag } from 'react-use-gesture'
 import {FullGestureState} from 'react-use-gesture/dist/types';
 import { currentWindowBreakpoint, clamp } from '../Utils';
+import NavItemHolder from './NavItemHolder';
+import './NavMenu.scss';
 
 interface NavMenuStateTypes {
     isMobile: boolean,
