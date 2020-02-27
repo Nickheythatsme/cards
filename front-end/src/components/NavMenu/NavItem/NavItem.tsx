@@ -1,14 +1,14 @@
-import React from 'react'
-import classNames from 'classnames'
-import './NavItem.scss'
+import React from 'react';
+import classNames from 'classnames';
+import './NavItem.scss';
 
-type HTMLMouseEvent = React.MouseEvent<HTMLDivElement, MouseEvent>
+type HTMLMouseEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
 interface PropTypes {
-    name: string
-    icon: React.ReactNode
-    isExpanded?: boolean
-    isActive?: boolean
-    onClick?: (e: HTMLMouseEvent) => any
+    name: string;
+    icon: React.ReactNode;
+    isExpanded?: boolean;
+    isActive?: boolean;
+    onClick?: (e: HTMLMouseEvent) => any;
 }
 
 function NavItem(props: PropTypes) {
@@ -36,7 +36,7 @@ function NavItem(props: PropTypes) {
                 {props.name}
             </div>
         </div>
-    )
+    );
 }
 
-export default NavItem
+export default NavItem;

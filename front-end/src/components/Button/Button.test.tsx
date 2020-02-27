@@ -1,8 +1,8 @@
-import React from 'react'
-import Button, { ReactiveButton } from './Button'
-import * as renderer from 'react-test-renderer'
-import { fireEvent, render, act } from '@testing-library/react'
-import { VariantNames } from '../Theming'
+import React from 'react';
+import Button, { ReactiveButton } from './Button';
+import * as renderer from 'react-test-renderer';
+import { fireEvent, render, act } from '@testing-library/react';
+import { VariantNames } from '../Theming';
 
 test('Button style changes depending on props', () => {
     const renderedSnapshot = renderer
@@ -36,56 +36,56 @@ test('Button style changes depending on props', () => {
                 ))}
             </>
         )
-        .toJSON()
-    expect(renderedSnapshot).toMatchSnapshot()
-})
+        .toJSON();
+    expect(renderedSnapshot).toMatchSnapshot();
+});
 
 test('Button children are rendered', () => {
     const TestComponent = ({ children, ...props }: any) => (
         <>TestComponent: {children}</>
-    )
+    );
     const { getByText } = render(
         <ReactiveButton>
             <TestComponent>This is a test</TestComponent>
         </ReactiveButton>
-    )
+    );
     expect(getByText(/TestComponent: This is a test/i)).toHaveTextContent(
         'TestComponent: This is a test'
-    )
-})
+    );
+});
 
 test('Reactive button changes state when hovered', async () => {
-    const { getByText } = render(<ReactiveButton>Button</ReactiveButton>)
-    expect(getByText(/Button/i).className).toMatchSnapshot('before')
+    const { getByText } = render(<ReactiveButton>Button</ReactiveButton>);
+    expect(getByText(/Button/i).className).toMatchSnapshot('before');
     await act(async () => {
-        fireEvent.click(getByText(/Button/i))
+        fireEvent.click(getByText(/Button/i));
         await new Promise((resolve, reject) => {
             setTimeout(() => {
                 try {
                     act(() => {
                         expect(getByText(/Button/i).className).toMatchSnapshot(
                             'during'
-                        )
-                    })
-                    resolve()
+                        );
+                    });
+                    resolve();
                 } catch (err) {
-                    reject(err)
+                    reject(err);
                 }
-            }, 50)
-        })
+            }, 50);
+        });
         await new Promise((resolve, reject) => {
             setTimeout(() => {
                 try {
                     act(() => {
                         expect(getByText(/Button/i).className).toMatchSnapshot(
                             'after'
-                        )
-                    })
-                    resolve()
+                        );
+                    });
+                    resolve();
                 } catch (err) {
-                    reject(err)
+                    reject(err);
                 }
-            }, 200)
-        })
-    })
-})
+            }, 200);
+        });
+    });
+});

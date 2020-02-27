@@ -1,2 +1,2 @@
-import NavItem from './NavItem'
-export default NavItem
+import NavItem from './NavItem';
+export default NavItem;

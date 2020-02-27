@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 function _getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window
+    const { innerWidth: width, innerHeight: height } = window;
     return {
         width,
         height,
-    }
+    };
 }
 
 const breakPoints = {
@@ -14,63 +14,63 @@ const breakPoints = {
     md: { min: 768, max: 992 },
     lg: { min: 992, max: 1200 },
     xl: { min: 1200, max: Number.MAX_SAFE_INTEGER },
-}
+};
 
 export function useWindowDimensions() {
     const [windowDimensions, setWindowDimensions] = useState(
         _getWindowDimensions()
-    )
+    );
 
     useEffect(() => {
         function handleResize() {
-            setWindowDimensions(_getWindowDimensions())
+            setWindowDimensions(_getWindowDimensions());
         }
 
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
-    return windowDimensions
+    return windowDimensions;
 }
 
 export function currentWindowBreakpoint(width?: number) {
     if (!width) {
-        width = _getWindowDimensions().width
+        width = _getWindowDimensions().width;
     }
     for (let breakPoint of Object.keys(breakPoints)) {
         if (
             width >= (breakPoints as any)[breakPoint].min &&
             width < (breakPoints as any)[breakPoint].max
         ) {
-            return breakPoint
+            return breakPoint;
         }
     }
-    return 'xl'
+    return 'xl';
 }
 
 export function useWindowBreakpoint() {
-    const [currentBreakpoint, setCurrentBreakpoint] = useState('xs')
+    const [currentBreakpoint, setCurrentBreakpoint] = useState('xs');
 
     useEffect(() => {
         function handleResize() {
-            let { width } = _getWindowDimensions()
-            setCurrentBreakpoint(currentWindowBreakpoint(width))
+            let { width } = _getWindowDimensions();
+            setCurrentBreakpoint(currentWindowBreakpoint(width));
         }
-        handleResize()
+        handleResize();
 
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
-    return currentBreakpoint
+    return currentBreakpoint;
 }
 
 export function clamp(value: number, min: number, max: number) {
     if (value < min) {
-        return min
+        return min;
     }
     if (value > max) {
-        return max
+        return max;
     }
-    return value
+    return value;
 }

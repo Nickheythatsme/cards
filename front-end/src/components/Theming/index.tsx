@@ -7,7 +7,7 @@ export const VariantNames = [
     'danger',
     'light',
     'dark',
-]
+];
 export type VariantTypes =
     | 'primary'
     | 'secondary'
@@ -16,4 +16,4 @@ export type VariantTypes =
     | 'warning'
     | 'danger'
     | 'light'
-    | 'dark'
+    | 'dark';

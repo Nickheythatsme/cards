@@ -1,11 +1,11 @@
-import React from 'react'
-import Button, { ReactiveButton } from './components/Button'
-import Card from './components/Card'
-import NavMenu from './components/NavMenu'
-import { VariantNames } from './components/Theming'
-import './App.scss'
-import './components/Theming/dark.scss'
-import 'bootstrap/scss/bootstrap-grid.scss'
+import React from 'react';
+import Button, { ReactiveButton } from './components/Button';
+import Card from './components/Card';
+import NavMenu from './components/NavMenu';
+import { VariantNames } from './components/Theming';
+import './App.scss';
+import './components/Theming/dark.scss';
+import 'bootstrap/scss/bootstrap-grid.scss';
 
 const App: React.FC = () => {
     return (
@@ -66,7 +66,7 @@ const App: React.FC = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default App
+export default App;
